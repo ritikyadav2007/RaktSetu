@@ -1,0 +1,168 @@
+/* ==========================================================================
+   RaktSetu — Global Styles & Design System
+   "Find the Right Blood, Faster"
+   ========================================================================== */
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    color-scheme: dark;
+  }
+
+  /* Custom Scrollbar */
+  ::-webkit-scrollbar {
+    width: 7px;
+    height: 7px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #090d16;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #334155;
+    border-radius: 9999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #ef233c;
+  }
+}
+
+/* Glassmorphism Styles */
+.glass-panel {
+  background: rgba(15, 23, 42, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(51, 65, 85, 0.6);
+}
+
+.glass-panel-danger {
+  background: rgba(35, 8, 12, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(239, 35, 60, 0.4);
+}
+
+.glass-card {
+  background: rgba(30, 41, 59, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(71, 85, 105, 0.4);
+}
+
+.glass-card-hover {
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.glass-card-hover:hover {
+  transform: translateY(-3px);
+  border-color: rgba(239, 35, 60, 0.6);
+  box-shadow: 0 12px 30px -10px rgba(239, 35, 60, 0.25);
+}
+
+/* Emergency Red Pulsing Glow */
+.emergency-glow {
+  box-shadow: 0 0 25px rgba(239, 35, 60, 0.6), inset 0 0 15px rgba(239, 35, 60, 0.2);
+}
+
+.emergency-beacon {
+  position: relative;
+}
+.emergency-beacon::before {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border-radius: inherit;
+  background: radial-gradient(circle, rgba(239, 35, 60, 0.6) 0%, transparent 70%);
+  animation: radar 2s infinite ease-out;
+  pointer-events: none;
+}
+
+/* Leaflet Dark Theme Overrides */
+.leaflet-container {
+  background: #090d16 !important;
+  font-family: inherit;
+}
+.leaflet-tile {
+  filter: brightness(0.7) invert(1) contrast(3) hue-rotate(200deg) saturate(0.3) brightness(0.7);
+}
+.leaflet-popup-content-wrapper {
+  background: #0f172a !important;
+  color: #f8fafc !important;
+  border: 1px solid #334155;
+  border-radius: 16px !important;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.6), 0 8px 10px -6px rgba(0, 0, 0, 0.6) !important;
+  padding: 0 !important;
+}
+.leaflet-popup-content {
+  margin: 0 !important;
+  line-height: 1.4 !important;
+}
+.leaflet-popup-tip {
+  background: #0f172a !important;
+  border: 1px solid #334155;
+}
+
+/* Custom Marker Pins */
+.custom-map-pin {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  color: white;
+  font-weight: 800;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.6);
+  border: 2.5px solid #ffffff;
+  transition: transform 0.2s ease;
+}
+.custom-map-pin:hover {
+  transform: scale(1.18);
+  z-index: 1000 !important;
+}
+.pin-green {
+  background: linear-gradient(135deg, #10b981, #047857);
+}
+.pin-yellow {
+  background: linear-gradient(135deg, #f59e0b, #b45309);
+}
+.pin-red {
+  background: linear-gradient(135deg, #ef233c, #990000);
+}
+.pin-user {
+  background: linear-gradient(135deg, #38bdf8, #0284c7);
+  box-shadow: 0 0 20px #38bdf8;
+}
+
+/* Stock Freshness Badges */
+.badge-live {
+  background: rgba(16, 185, 129, 0.15);
+  color: #34d399;
+  border: 1px solid rgba(16, 185, 129, 0.4);
+}
+.badge-moderate {
+  background: rgba(245, 158, 11, 0.15);
+  color: #fbbf24;
+  border: 1px solid rgba(245, 158, 11, 0.4);
+}
+.badge-stale {
+  background: rgba(239, 35, 60, 0.15);
+  color: #f87171;
+  border: 1px solid rgba(239, 35, 60, 0.4);
+}
+
+/* Print Styles for Hospital Emergency Requisition Slips */
+@media print {
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+  }
+  .no-print, nav, footer, #toast-container, button:not(.allow-print) {
+    display: none !important;
+  }
+  .print-only {
+    display: block !important;
+  }
+  .glass-panel, .glass-card {
+    background: #ffffff !important;
+    border: 1px solid #000000 !important;
+    box-shadow: none !important;
+    color: #000000 !important;
+  }
+}
