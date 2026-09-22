@@ -1,132 +1,1896 @@
 <!DOCTYPE html>
-<html lang="en" class="h-full bg-slate-950 text-slate-100 antialiased selection:bg-red-600 selection:text-white">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>RaktSetu (रक्तसेतु) — Find the Right Blood, Faster | Emergency Blood Discovery Network</title>
-  <meta name="description" content="RaktSetu is an emergency-focused digital blood discovery and coordination platform connecting patients, hospitals, and verified blood centres in real time.">
-  <meta name="theme-color" content="#990000">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blood Bank (रक्तसेतु) — Find the Right Blood, Faster</title>
+<meta name="description" content="Emergency blood discovery and real-time coordination platform connecting patients, hospitals, and verified blood centres in seconds.">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23D62839'><path d='M12 2.5C12 2.5 5 11 5 15.5C5 19.09 8.13 22 12 22C15.87 22 19 19.09 19 15.5C19 11 12 2.5 12 2.5Z'/><path d='M8.2 15.8C8.2 13.6 10 11.6 12 9.6' stroke='%23fff' stroke-width='1.4' stroke-linecap='round'/></svg>">
 
-  <!-- Favicon SVG -->
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ef233c'><path d='M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z'/></svg>">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@500;600&display=swap');
 
-  <!-- Google Fonts: Plus Jakarta Sans & Outfit -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  :root{
+    --bg:#F5F6F3;
+    --bg-subtle:#EAECE6;
+    --ink:#10181F;
+    --ink-soft:#4B5560;
+    --ink-muted:#7C8691;
+    --red:#D62839;
+    --red-dark:#A81F2C;
+    --red-tint:#FCE9EA;
+    --teal:#14746F;
+    --teal-dark:#0E5652;
+    --teal-tint:#E4F3F1;
+    --amber:#B6791C;
+    --amber-tint:#FBF0DD;
+    --line:#DAD8D0;
+    --line-focus:#14746F;
+    --card:#FFFFFF;
+    --radius:14px;
+    --radius-sm:8px;
+    --shadow-subtle:0 1px 2px rgba(16,24,31,0.04);
+    --shadow-elevated:0 12px 30px -8px rgba(16,24,31,0.1);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'IBM Plex Sans', -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,h4, .display{
+    font-family:'Space Grotesk', 'IBM Plex Sans', sans-serif;
+    font-weight:600;
+    letter-spacing:-0.015em;
+    margin:0;
+  }
+  a{color:inherit; text-decoration:none;}
+  button{font-family:inherit;}
+  :focus-visible{outline:2px solid var(--teal); outline-offset:2px;}
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.001ms !important; transition-duration:0.001ms !important;}
+  }
 
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          fontFamily: {
-            sans: ['"Plus Jakarta Sans"', 'system-ui', '-apple-system', 'sans-serif'],
-            heading: ['"Outfit"', 'sans-serif'],
-            mono: ['"JetBrains Mono"', 'monospace']
-          },
-          colors: {
-            brand: {
-              50: '#fff1f2',
-              100: '#ffe4e6',
-              200: '#fecdd3',
-              300: '#fda4af',
-              400: '#fb7185',
-              500: '#ef233c',
-              600: '#d90429',
-              700: '#b70924',
-              800: '#8d0801',
-              900: '#590d0b',
-              950: '#2b0606'
-            },
-            emergency: {
-              red: '#ff0033',
-              glow: 'rgba(239, 35, 60, 0.45)',
-              amber: '#f59e0b',
-              emerald: '#10b981',
-              cyan: '#06b6d4'
-            }
-          },
-          animation: {
-            'pulse-fast': 'pulse 1.2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-            'radar': 'radar 2.5s ease-out infinite',
-            'float': 'float 3s ease-in-out infinite',
-            'marquee': 'marquee 25s linear infinite',
-            'glow-pulse': 'glowPulse 2s ease-in-out infinite alternate'
-          },
-          keyframes: {
-            radar: {
-              '0%': { transform: 'scale(0.8)', opacity: '0.9' },
-              '100%': { transform: 'scale(2.4)', opacity: '0' }
-            },
-            float: {
-              '0%, 100%': { transform: 'translateY(0)' },
-              '50%': { transform: 'translateY(-6px)' }
-            },
-            marquee: {
-              '0%': { transform: 'translateX(0%)' },
-              '100%': { transform: 'translateX(-50%)' }
-            },
-            glowPulse: {
-              '0%': { boxShadow: '0 0 15px rgba(239, 35, 60, 0.3)' },
-              '100%': { boxShadow: '0 0 35px rgba(239, 35, 60, 0.8), 0 0 60px rgba(217, 4, 41, 0.4)' }
-            }
-          }
-        }
-      }
+  .wrap{max-width:1160px; margin:0 auto; padding:0 24px;}
+
+  /* ---------- Header ---------- */
+  header{
+    position:sticky; top:0; z-index:40;
+    background:rgba(245,246,243,0.92);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-row{display:flex; align-items:center; justify-content:space-between; padding:13px 24px;}
+  .brand{display:flex; align-items:center; gap:10px; font-size:20px; font-weight:700; font-family:'Space Grotesk'; cursor:pointer;}
+  .brand svg{flex:0 0 auto;}
+  .brand-sub{font-size:12px; font-weight:500; color:var(--red); background:var(--red-tint); padding:2px 7px; border-radius:6px; margin-left:4px;}
+  .nav-links{display:none; gap:26px; font-size:14.5px; color:var(--ink-soft); font-weight:500;}
+  .nav-links a{transition:color .15s ease;}
+  .nav-links a:hover{color:var(--ink);}
+  .nav-actions{display:flex; align-items:center; gap:10px;}
+  .portal-link{
+    display:none; font-size:13px; font-weight:600; color:var(--teal); padding:8px 12px;
+    border:1px solid var(--teal); border-radius:999px; transition:all .15s ease;
+  }
+  .portal-link:hover{background:var(--teal-tint);}
+  .nav-cta{
+    background:var(--red); color:#fff; border:none; padding:9px 18px;
+    border-radius:999px; font-size:14.5px; font-weight:600; cursor:pointer;
+    display:flex; align-items:center; gap:7px; transition:background .15s ease, transform .1s ease;
+  }
+  .nav-cta:hover{background:var(--red-dark); transform:translateY(-1px);}
+  @media(min-width:860px){ .nav-links{display:flex;} .portal-link{display:inline-flex;} }
+
+  /* ---------- Hero ---------- */
+  .hero{padding:52px 0 40px;}
+  .hero-grid{display:grid; gap:36px;}
+  @media(min-width:920px){ .hero-grid{grid-template-columns:1.05fr 0.95fr; align-items:start; gap:48px;} }
+
+  .eyebrow-hi{
+    font-family:'IBM Plex Sans'; font-style:italic; color:var(--ink-soft);
+    font-size:15px; margin-bottom:12px; opacity:0; animation:rise .6s ease forwards;
+  }
+  h1.headline{
+    font-size:clamp(34px, 4.8vw, 52px); line-height:1.08; max-width:12ch;
+    opacity:0; animation:rise .6s ease .08s forwards;
+  }
+  h1.headline em{
+    font-style:normal; color:var(--red); background:linear-gradient(transparent 62%, #F6C7CB 62%);
+  }
+  .sub{
+    margin-top:18px; font-size:16.5px; color:var(--ink-soft); max-width:48ch; line-height:1.6;
+    opacity:0; animation:rise .6s ease .16s forwards;
+  }
+  .hero-ctas{
+    margin-top:26px; display:flex; flex-wrap:wrap; gap:12px;
+    opacity:0; animation:rise .6s ease .24s forwards;
+  }
+  @keyframes rise{ from{opacity:0; transform:translateY(14px);} to{opacity:1; transform:translateY(0);} }
+
+  .btn-primary{
+    background:var(--red); color:#fff; border:none; padding:13px 22px; border-radius:10px;
+    font-size:15px; font-weight:600; cursor:pointer; display:inline-flex; align-items:center; gap:8px;
+    transition:background .15s ease, transform .1s ease;
+  }
+  .btn-primary:hover{background:var(--red-dark); transform:translateY(-1px);}
+  .btn-ghost{
+    background:transparent; color:var(--ink); border:1.5px solid var(--line); padding:12px 18px;
+    border-radius:10px; font-size:15px; font-weight:600; cursor:pointer; transition:all .15s ease;
+    display:inline-flex; align-items:center; gap:6px;
+  }
+  .btn-ghost:hover{border-color:var(--ink); background:#fff;}
+
+  .pulse-badge{
+    display:inline-flex; align-items:center; gap:7px; font-size:13px; color:var(--red-dark);
+    background:var(--red-tint); padding:5px 12px 5px 9px; border-radius:999px; margin-bottom:16px;
+    opacity:0; animation:rise .6s ease 0s forwards; font-weight:500;
+  }
+  .dot{width:7px; height:7px; border-radius:50%; background:var(--red); animation:pulse 1.6s infinite;}
+  @keyframes pulse{ 0%,100%{opacity:1;} 50%{opacity:.3;} }
+
+  /* ---------- Search demo card ---------- */
+  .demo-card{
+    background:var(--card); border:1px solid var(--line); border-radius:20px; padding:24px;
+    box-shadow:var(--shadow-elevated);
+  }
+  .demo-title-row{display:flex; align-items:center; justify-content:space-between; margin-bottom:16px;}
+  .demo-card h3{font-size:16px; color:var(--ink); font-weight:600;}
+  .live-tag{
+    font-size:12px; color:var(--teal); font-weight:600; display:flex; align-items:center; gap:6px;
+    background:var(--teal-tint); padding:4px 9px; border-radius:999px;
+  }
+  .live-tag .dot{background:var(--teal);}
+
+  /* Natural language helper bar */
+  .nlp-box{
+    margin-bottom:16px; padding:12px; background:var(--bg-subtle); border-radius:12px; border:1px solid var(--line);
+  }
+  .nlp-label{font-size:12px; font-weight:600; color:var(--ink-soft); display:flex; align-items:center; gap:6px; margin-bottom:6px;}
+  .nlp-chips{display:flex; flex-wrap:wrap; gap:6px;}
+  .nlp-chip{
+    font-size:12px; background:#fff; border:1px solid var(--line); padding:4px 9px; border-radius:999px;
+    cursor:pointer; color:var(--ink-soft); font-weight:500; transition:all .15s ease;
+  }
+  .nlp-chip:hover{border-color:var(--red); color:var(--red-dark); background:var(--red-tint);}
+
+  .field-label{font-size:13px; color:var(--ink-soft); margin:14px 0 7px; display:flex; justify-content:space-between; align-items:center;}
+  .field-label-hint{font-size:11.5px; color:var(--teal); font-weight:500;}
+  
+  .bg-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:8px;}
+  .bg-chip{
+    padding:9px 0; text-align:center; border:1.5px solid var(--line); border-radius:9px;
+    font-weight:600; font-size:14.5px; cursor:pointer; background:#fff; transition:all .15s ease;
+  }
+  .bg-chip:hover{border-color:var(--ink-soft);}
+  .bg-chip.active{border-color:var(--red); background:var(--red-tint); color:var(--red-dark);}
+
+  .rare-row{margin-top:7px; display:flex; gap:8px;}
+  .rare-chip{
+    flex:1; padding:7px 0; text-align:center; border:1px dashed var(--line); border-radius:8px;
+    font-size:12.5px; font-weight:600; cursor:pointer; background:#fff; color:var(--ink-soft);
+  }
+  .rare-chip.active{border-color:var(--red); background:var(--red-tint); color:var(--red-dark); border-style:solid;}
+
+  .input-with-button{display:flex; gap:8px;}
+  .input-with-button input{flex:1;}
+  .loc-gps-btn{
+    padding:0 12px; background:#fff; border:1.5px solid var(--line); border-radius:9px;
+    font-size:12.5px; font-weight:600; cursor:pointer; display:flex; align-items:center; gap:5px;
+    color:var(--ink-soft); white-space:nowrap;
+  }
+  .loc-gps-btn:hover{border-color:var(--ink); color:var(--ink);}
+
+  select, input[type=text], input[type=tel], input[type=date]{
+    width:100%; padding:10px 12px; border:1.5px solid var(--line); border-radius:9px;
+    font-size:14px; font-family:inherit; background:#fff; color:var(--ink); transition:border-color .15s;
+  }
+  select:focus, input:focus{border-color:var(--teal); outline:none;}
+
+  .urgency-row{display:flex; gap:8px;}
+  .urgency-chip{
+    flex:1; padding:10px 6px; text-align:center; border:1.5px solid var(--line); border-radius:9px;
+    font-size:13px; font-weight:600; cursor:pointer; background:#fff; transition:all .15s ease;
+  }
+  .urgency-chip[data-level="critical"].active{background:var(--red); color:#fff; border-color:var(--red);}
+  .urgency-chip[data-level="urgent"].active{background:var(--amber-tint); color:var(--amber); border-color:var(--amber);}
+  .urgency-chip[data-level="planned"].active{background:var(--teal-tint); color:var(--teal); border-color:var(--teal);}
+
+  .search-btn{
+    width:100%; margin-top:18px; background:var(--ink); color:#fff; border:none;
+    padding:13px; border-radius:10px; font-size:15px; font-weight:600; cursor:pointer;
+    transition:background .15s ease, transform .1s ease; display:flex; align-items:center; justify-content:center; gap:8px;
+  }
+  .search-btn:hover{background:#000; transform:translateY(-1px);}
+
+  /* ---------- Results ---------- */
+  #results{margin-top:18px; display:none;}
+  #results.show{display:block;}
+  .results-meta{
+    font-size:13px; color:var(--ink-soft); margin-bottom:12px; padding-bottom:8px;
+    border-bottom:1px solid var(--line); display:flex; justify-content:space-between; align-items:center;
+  }
+  .result{
+    border:1px solid var(--line); border-radius:12px; padding:14px; margin-bottom:12px; background:#fff;
+    transition:transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+  }
+  .result:hover{border-color:var(--ink-soft); box-shadow:var(--shadow-subtle);}
+  .result-top{display:flex; justify-content:space-between; align-items:flex-start; gap:8px;}
+  .centre-name{font-weight:600; font-size:15px; line-height:1.3;}
+  .verified{color:var(--teal); font-size:11.5px; font-weight:600; display:inline-flex; align-items:center; gap:3px; margin-left:5px;}
+  .dist{font-size:13px; color:var(--ink-soft); white-space:nowrap; font-weight:600;}
+  .centre-addr{font-size:12px; color:var(--ink-muted); margin-top:3px;}
+  
+  .result-mid{display:flex; flex-wrap:wrap; align-items:center; gap:7px; margin:10px 0;}
+  .stock-tag{
+    font-size:12px; padding:4px 9px; border-radius:999px; background:var(--teal-tint); color:var(--teal); font-weight:600;
+    display:inline-flex; align-items:center; gap:4px;
+  }
+  .stock-tag.low{background:var(--amber-tint); color:var(--amber);}
+  .fresh-tag{font-size:12px; color:var(--ink-soft); font-variant-numeric:tabular-nums; display:inline-flex; align-items:center; gap:4px;}
+  .fresh-tag .dot{width:6px; height:6px; background:var(--teal);}
+
+  .result-actions{display:flex; gap:8px; margin-top:11px;}
+  .mini-btn{
+    flex:1; padding:8px 10px; border-radius:8px; border:1px solid var(--line); background:#fafafa;
+    font-size:12.5px; font-weight:600; text-align:center; cursor:pointer; transition:all .15s ease;
+    display:inline-flex; align-items:center; justify-content:center; gap:5px;
+  }
+  .mini-btn:hover{background:#f0f0f0; border-color:var(--ink-soft);}
+  .mini-btn.primary{background:var(--ink); color:#fff; border-color:var(--ink);}
+  .mini-btn.primary:hover{background:#000;}
+
+  /* ---------- Sections ---------- */
+  section{padding:68px 0;}
+  .section-head{max-width:58ch; margin-bottom:34px;}
+  .kicker{font-size:13.5px; color:var(--red-dark); font-weight:600; margin-bottom:8px; text-transform:uppercase; letter-spacing:0.04em;}
+  .section-head h2{font-size:clamp(26px,3.4vw,36px); line-height:1.15;}
+  .section-head p{margin-top:12px; color:var(--ink-soft); font-size:16px;}
+
+  /* Steps */
+  .steps{display:grid; gap:1px; background:var(--line); border:1px solid var(--line); border-radius:16px; overflow:hidden;}
+  @media(min-width:800px){ .steps{grid-template-columns:repeat(4,1fr);} }
+  .step{background:#fff; padding:26px 22px; transition:background .15s ease;}
+  .step:hover{background:#FCFDFB;}
+  .step-num{font-family:'Space Grotesk'; font-size:13px; color:var(--red-dark); font-weight:700;}
+  .step h4{margin-top:10px; font-size:17px; font-weight:600;}
+  .step p{margin-top:6px; font-size:14px; color:var(--ink-soft); line-height:1.55;}
+
+  /* Split Dashboards */
+  .split{display:grid; gap:22px;}
+  @media(min-width:820px){ .split{grid-template-columns:1fr 1fr;} }
+  .split-card{border-radius:18px; padding:30px; border:1px solid var(--line); display:flex; flex-direction:column; justify-content:space-between;}
+  .split-card.hosp{background:#101820; color:#fff;}
+  .split-card.hosp h3{color:#fff;}
+  .split-card.hosp p{color:#B9C2C9;}
+  .split-card.centre{background:var(--teal-tint); border-color:#BEE3E0;}
+  .split-card h3{font-size:21px; margin-bottom:10px;}
+  .split-card p{color:var(--ink-soft); font-size:14.5px; margin-bottom:16px; line-height:1.55;}
+  .split-card ul{margin:0 0 22px 0; padding-left:18px; font-size:14px; line-height:1.9;}
+  .split-card.hosp ul{color:#D8DEE2;}
+  .split-btn{
+    padding:11px 18px; border-radius:9px; font-size:14px; font-weight:600; cursor:pointer;
+    display:inline-flex; align-items:center; gap:7px; border:none; transition:all .15s ease; width:fit-content;
+  }
+  .split-card.hosp .split-btn{background:#fff; color:#101820;}
+  .split-card.hosp .split-btn:hover{background:#E6E9EB;}
+  .split-card.centre .split-btn{background:var(--teal); color:#fff;}
+  .split-card.centre .split-btn:hover{background:var(--teal-dark);}
+
+  /* Features Grid */
+  .feat-grid{display:grid; gap:18px;}
+  @media(min-width:760px){ .feat-grid{grid-template-columns:repeat(3,1fr);} }
+  .feat{border:1px solid var(--line); border-radius:14px; padding:22px; background:#fff; transition:transform .15s ease, border-color .15s ease;}
+  .feat:hover{transform:translateY(-2px); border-color:var(--ink-soft);}
+  .feat .icn{width:36px; height:36px; margin-bottom:14px;}
+  .feat h4{font-size:16.5px; font-weight:600;}
+  .feat p{margin-top:7px; font-size:13.5px; color:var(--ink-soft); line-height:1.55;}
+
+  /* Compatibility Matrix Preview Section */
+  .matrix-section{background:#fff; border-top:1px solid var(--line); border-bottom:1px solid var(--line);}
+  .compat-table-wrap{overflow-x:auto; margin-top:20px; border:1px solid var(--line); border-radius:12px;}
+  .compat-table{width:100%; border-collapse:collapse; font-size:13px;}
+  .compat-table th, .compat-table td{padding:10px 14px; text-align:left; border-bottom:1px solid var(--line);}
+  .compat-table th{background:var(--bg); font-family:'Space Grotesk'; font-weight:600;}
+  .tag-match{background:var(--teal-tint); color:var(--teal); font-weight:600; padding:2px 8px; border-radius:6px; font-size:12px;}
+  .tag-universal{background:var(--red-tint); color:var(--red-dark); font-weight:600; padding:2px 8px; border-radius:6px; font-size:12px;}
+
+  /* Vision & Scope */
+  .vision{border-top:1px solid var(--line); border-bottom:1px solid var(--line); background:#EFF1EC;}
+  .vision-grid{display:grid; gap:24px;}
+  @media(min-width:840px){ .vision-grid{grid-template-columns:1fr 1fr; align-items:center;} }
+  .vision blockquote{font-family:'Space Grotesk'; font-size:clamp(22px,2.8vw,28px); line-height:1.35; margin:0; max-width:22ch;}
+  .vision cite{display:block; margin-top:14px; font-style:normal; font-size:14px; color:var(--ink-soft);}
+  .scope-note{font-size:13.5px; color:var(--ink-soft); background:#fff; border:1px solid var(--line); border-radius:12px; padding:18px; line-height:1.6;}
+
+  /* ---------- Donate section ---------- */
+  .donate-wrap{display:grid; gap:32px;}
+  @media(min-width:900px){ .donate-wrap{grid-template-columns:0.95fr 1.05fr; align-items:start;} }
+  .donate-side h2{font-size:clamp(26px,3.2vw,34px); line-height:1.18;}
+  .donate-side p{margin-top:12px; color:var(--ink-soft); font-size:15.5px; max-width:44ch; line-height:1.6;}
+  .donate-points{margin-top:22px; display:grid; gap:14px;}
+  .donate-point{display:flex; gap:12px; font-size:14px; color:var(--ink-soft); line-height:1.5;}
+  .donate-point .num{
+    flex:0 0 auto; width:24px; height:24px; border-radius:50%; background:var(--teal-tint); color:var(--teal);
+    font-size:12px; font-weight:700; display:flex; align-items:center; justify-content:center; font-family:'Space Grotesk';
+  }
+  .donate-point strong{color:var(--ink);}
+  
+  .donate-card{background:var(--card); border:1px solid var(--line); border-radius:20px; padding:26px; box-shadow:var(--shadow-elevated);}
+  .donate-card h3{font-size:18px; margin-bottom:6px;}
+  .donate-card .sub-hint{font-size:13px; color:var(--ink-muted); margin-bottom:18px;}
+  .form-row2{display:grid; grid-template-columns:1fr; gap:14px;}
+  @media(min-width:520px){ .form-row2{grid-template-columns:1fr 1fr;} }
+  .field{margin-top:0;}
+  .field label{font-size:13px; color:var(--ink-soft); display:block; margin-bottom:7px; font-weight:500;}
+  .donate-card form > .field, .donate-card form > .form-row2{margin-top:14px;}
+  .donate-card form > .field:first-child{margin-top:0;}
+  
+  .checkbox-field{display:flex; align-items:flex-start; gap:9px; margin-top:16px; font-size:13px; color:var(--ink-soft);}
+  .checkbox-field input{margin-top:3px;}
+
+  .book-btn{
+    width:100%; margin-top:20px; background:var(--teal); color:#fff; border:none;
+    padding:14px; border-radius:10px; font-size:15px; font-weight:600; cursor:pointer;
+    transition:background .15s ease, transform .1s ease;
+  }
+  .book-btn:hover{background:var(--teal-dark); transform:translateY(-1px);}
+
+  #donateConfirm{
+    display:none; margin-top:20px; border:1px solid var(--teal); background:var(--teal-tint);
+    border-radius:14px; padding:18px; animation:rise .4s ease forwards;
+  }
+  #donateConfirm.show{display:block;}
+  #donateConfirm h4{font-size:16px; color:var(--teal); margin-bottom:6px; display:flex; align-items:center; gap:6px;}
+  #donateConfirm p{font-size:13px; color:var(--ink-soft); margin:0 0 12px 0;}
+  #donateConfirm .row{display:flex; justify-content:space-between; font-size:13px; padding:6px 0; border-top:1px dashed rgba(20,116,111,0.25); color:var(--ink);}
+  #donateConfirm .row span:first-child{color:var(--ink-soft);}
+  #donateConfirm .token-badge{font-family:'JetBrains Mono', monospace; font-weight:700; color:var(--teal-dark);}
+
+  /* ---------- Footer ---------- */
+  footer{padding:42px 0 56px; border-top:1px solid var(--line); background:#FAFBF9;}
+  .foot-row{display:flex; flex-wrap:wrap; justify-content:space-between; gap:24px; align-items:flex-start;}
+  .foot-brand{font-family:'Space Grotesk'; font-weight:700; font-size:18px; display:flex; align-items:center; gap:8px;}
+  .foot-note{font-size:13px; color:var(--ink-soft); max-width:56ch; margin-top:8px; line-height:1.55;}
+  .foot-helpline{background:var(--red-tint); border:1px solid #F6C7CB; padding:12px 18px; border-radius:12px;}
+  .foot-helpline-title{font-size:12px; font-weight:700; color:var(--red-dark); text-transform:uppercase; letter-spacing:0.04em;}
+  .foot-helpline-phone{font-size:18px; font-family:'Space Grotesk'; font-weight:700; color:var(--red); margin-top:2px;}
+
+  /* ---------- Modals ---------- */
+  .modal-backdrop{
+    position:fixed; inset:0; z-index:100; background:rgba(16,24,31,0.65);
+    backdrop-filter:blur(4px); display:none; align-items:center; justify-content:center; padding:16px;
+  }
+  .modal-backdrop.open{display:flex;}
+  .modal-window{
+    background:#fff; border:1px solid var(--line); border-radius:18px; width:100%; max-width:580px;
+    max-height:90vh; overflow-y:auto; box-shadow:var(--shadow-elevated); padding:26px; animation:rise .3s ease forwards;
+  }
+  .modal-head{display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:18px;}
+  .modal-head h3{font-size:19px;}
+  .modal-close{
+    background:none; border:none; font-size:22px; cursor:pointer; color:var(--ink-soft);
+    width:32px; height:32px; display:flex; align-items:center; justify-content:center; border-radius:8px;
+  }
+  .modal-close:hover{background:var(--bg-subtle);}
+  .modal-table{width:100%; border-collapse:collapse; margin-top:12px; font-size:13px;}
+  .modal-table th, .modal-table td{padding:8px 10px; border-bottom:1px solid var(--line); text-align:left;}
+  .modal-table th{background:var(--bg); font-weight:600;}
+
+  /* Toast Notification */
+  #toast{
+    position:fixed; bottom:24px; right:24px; z-index:120; background:var(--ink); color:#fff;
+    padding:12px 20px; border-radius:10px; font-size:13.5px; font-weight:500; display:none;
+    box-shadow:var(--shadow-elevated); align-items:center; gap:8px; animation:rise .3s ease;
+  }
+  #toast.show{display:flex;}
+
+  /* ==========================================================================
+     Hero Visual Carousel & Trust Strip
+     ========================================================================== */
+  .banner-carousel-section{
+    position:relative; width:100%; overflow:hidden; background:#ECEEE9;
+    border-bottom:1px solid var(--line); user-select:none;
+  }
+  .carousel-viewport{
+    position:relative; width:100%; overflow:hidden;
+  }
+  .carousel-track{
+    display:flex; width:100%;
+    transition:transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change:transform;
+  }
+  .carousel-slide{
+    position:relative; min-width:100%; width:100%;
+    min-height:500px; max-height:580px; aspect-ratio:16/9;
+    display:flex; align-items:center; overflow:hidden;
+  }
+  .slide-bg-img{
+    position:absolute; inset:0; width:100%; height:100%;
+    object-fit:cover; object-position:72% center; z-index:1;
+    transform:scale(1.02); transition:transform 8s ease-out;
+  }
+  .carousel-slide.active .slide-bg-img{
+    transform:scale(1.06);
+  }
+  .slide-overlay{
+    position:absolute; inset:0; z-index:2;
+    background:linear-gradient(90deg, rgba(245,246,243,0.98) 0%, rgba(245,246,243,0.95) 36%, rgba(245,246,243,0.80) 52%, rgba(245,246,243,0.2) 75%, transparent 100%),
+               linear-gradient(0deg, rgba(245,246,243,0.6) 0%, transparent 30%);
+    pointer-events:none;
+  }
+  .slide-content-wrap{
+    position:relative; z-index:3; width:100%; padding:44px 0;
+  }
+  .slide-content{
+    max-width:580px; padding:10px 0;
+  }
+  .slide-tag{
+    display:inline-flex; align-items:center; gap:7px; font-size:12px; font-weight:700;
+    letter-spacing:0.06em; text-transform:uppercase; color:var(--red-dark);
+    background:var(--red-tint); padding:5px 12px; border-radius:999px; margin-bottom:14px;
+    border:1px solid rgba(214,40,57,0.18);
+  }
+  .slide-tag.teal{color:var(--teal-dark); background:var(--teal-tint); border-color:rgba(20,116,111,0.2);}
+  .slide-tag.amber{color:var(--amber); background:var(--amber-tint); border-color:rgba(182,121,28,0.2);}
+
+  .slide-headline{
+    font-size:clamp(30px, 4vw, 48px); font-family:'Space Grotesk', sans-serif;
+    font-weight:700; line-height:1.1; color:var(--ink); margin-bottom:12px;
+  }
+  .slide-headline em{
+    font-style:normal; color:var(--red);
+    background:linear-gradient(transparent 65%, #F6C7CB 65%);
+  }
+  .slide-sub{
+    font-size:clamp(14.5px, 1.5vw, 16.5px); color:var(--ink-soft); line-height:1.6;
+    margin-bottom:20px; max-width:48ch;
+  }
+  .slide-feature-pill{
+    display:inline-flex; align-items:center; gap:8px; font-size:12.5px; font-weight:600;
+    color:var(--teal-dark); background:var(--teal-tint); padding:6px 13px; border-radius:8px;
+    margin-bottom:22px; border:1px solid rgba(20,116,111,0.22);
+  }
+  .slide-flow-badge{
+    display:flex; align-items:center; flex-wrap:wrap; gap:8px; font-size:12.5px;
+    font-weight:700; color:var(--ink); background:#fff; padding:7px 14px;
+    border-radius:10px; border:1px solid var(--line); margin-bottom:22px;
+    width:fit-content; box-shadow:var(--shadow-subtle);
+  }
+  .slide-flow-badge span{color:var(--teal); font-weight:700;}
+  .slide-flow-badge span.accent{color:var(--red);}
+  
+  .slide-metric-card{
+    background:#fff; border:1px solid var(--line); border-left:4px solid var(--teal);
+    border-radius:12px; padding:11px 15px; margin-bottom:22px; max-width:390px;
+    box-shadow:var(--shadow-subtle);
+  }
+  .smc-top{display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;}
+  .smc-title{font-size:14px; font-weight:700; color:var(--ink);}
+  .smc-meta{font-size:12px; color:var(--teal); font-weight:600; display:flex; align-items:center; gap:5px;}
+
+  .slide-cta-btn{
+    display:inline-flex; align-items:center; gap:8px; background:var(--red); color:#fff;
+    padding:13px 24px; border-radius:10px; font-size:15px; font-weight:600; border:none;
+    cursor:pointer; transition:all 0.2s ease; box-shadow:0 4px 14px rgba(214,40,57,0.25);
+  }
+  .slide-cta-btn:hover{background:var(--red-dark); transform:translateY(-2px); box-shadow:0 6px 18px rgba(214,40,57,0.35);}
+  .slide-cta-btn.secondary{background:var(--ink); box-shadow:0 4px 14px rgba(16,24,31,0.2);}
+  .slide-cta-btn.secondary:hover{background:#000;}
+
+  /* Carousel Arrows */
+  .carousel-arrow{
+    position:absolute; top:50%; transform:translateY(-50%); z-index:10;
+    width:44px; height:44px; border-radius:50%; background:rgba(255,255,255,0.88);
+    backdrop-filter:blur(8px); border:1px solid var(--line); color:var(--ink);
+    font-size:24px; line-height:1; display:flex; align-items:center; justify-content:center;
+    cursor:pointer; transition:all 0.2s ease; box-shadow:var(--shadow-subtle);
+  }
+  .carousel-arrow:hover{background:#fff; border-color:var(--ink); transform:translateY(-50%) scale(1.08);}
+  .carousel-arrow.prev{left:20px;}
+  .carousel-arrow.next{right:20px;}
+
+  /* Carousel Pagination Dots */
+  .carousel-controls-bottom{
+    position:absolute; bottom:20px; left:0; right:0; z-index:10;
+    display:flex; justify-content:center; align-items:center; pointer-events:none;
+  }
+  .carousel-dots{
+    display:flex; align-items:center; gap:8px; background:rgba(255,255,255,0.88);
+    backdrop-filter:blur(8px); padding:7px 15px; border-radius:999px;
+    border:1px solid var(--line); pointer-events:auto; box-shadow:var(--shadow-subtle);
+  }
+  .dot-btn{
+    width:9px; height:9px; border-radius:999px; background:#BBC0C5; border:none;
+    cursor:pointer; transition:all 0.3s cubic-bezier(0.16, 1, 0.3, 1); padding:0;
+  }
+  .dot-btn:hover{background:var(--ink-soft);}
+  .dot-btn.active{width:26px; background:var(--red);}
+
+  .carousel-counter{
+    position:absolute; right:24px; bottom:20px; z-index:10;
+    background:rgba(255,255,255,0.88); backdrop-filter:blur(8px);
+    font-family:'Space Grotesk', sans-serif; font-weight:700; font-size:12px;
+    color:var(--ink); padding:6px 12px; border-radius:999px; border:1px solid var(--line);
+  }
+
+  /* Responsive styles for banner */
+  @media(max-width:920px){
+    .carousel-slide{min-height:480px; aspect-ratio:auto;}
+    .slide-content{max-width:480px;}
+  }
+  @media(max-width:768px){
+    .carousel-slide{min-height:440px; aspect-ratio:auto;}
+    .slide-overlay{
+      background:linear-gradient(180deg, rgba(245,246,243,0.96) 0%, rgba(245,246,243,0.92) 65%, rgba(245,246,243,0.65) 100%);
     }
-  </script>
+    .slide-content{max-width:100%;}
+    .carousel-arrow{width:36px; height:36px; font-size:18px;}
+    .carousel-arrow.prev{left:10px;}
+    .carousel-arrow.next{right:10px;}
+    .carousel-counter{display:none;}
+  }
 
-  <!-- Leaflet CSS & JS for OpenStreetMap -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-
-  <!-- Lucide Icons CDN -->
-  <script src="https://unpkg.com/lucide@latest"></script>
-
-  <!-- Canvas Confetti CDN -->
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
-
-  <!-- Custom Styles -->
-  <link rel="stylesheet" href="./styles.css">
+  /* ---------- Trust Strip ---------- */
+  .trust-strip{
+    background:#FFFFFF; border-bottom:1px solid var(--line); padding:18px 0;
+  }
+  .trust-grid{
+    display:grid; grid-template-columns:repeat(4,1fr); gap:20px; align-items:center;
+  }
+  .trust-item{
+    display:flex; align-items:center; gap:12px;
+  }
+  .trust-icon{
+    width:38px; height:38px; border-radius:10px; background:var(--red-tint); color:var(--red);
+    display:flex; align-items:center; justify-content:center; flex-shrink:0;
+  }
+  .trust-icon.teal{background:var(--teal-tint); color:var(--teal);}
+  .trust-icon.amber{background:var(--amber-tint); color:var(--amber);}
+  .trust-title{
+    font-family:'Space Grotesk', sans-serif; font-weight:700; font-size:14.5px;
+    color:var(--ink); line-height:1.2;
+  }
+  .trust-sub{
+    font-size:12px; color:var(--ink-soft); margin-top:2px; line-height:1.3;
+  }
+  .trust-disclaimer{
+    text-align:center; font-size:11.5px; color:var(--ink-muted); margin-top:12px;
+    padding-top:10px; border-top:1px dashed var(--line);
+  }
+  @media(max-width:860px){
+    .trust-grid{grid-template-columns:1fr 1fr; gap:14px;}
+  }
+  @media(max-width:480px){
+    .trust-grid{grid-template-columns:1fr; gap:12px;}
+  }
+</style>
 </head>
-<body class="min-h-full flex flex-col bg-slate-950 text-slate-100 font-sans selection:bg-brand-600 selection:text-white antialiased overflow-x-hidden">
+<body>
 
-  <!-- Background Ambient Glow Gradients -->
-  <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
-    <div class="absolute -top-40 left-1/2 -translate-x-1/2 w-[700px] h-[500px] bg-gradient-to-b from-brand-700/20 via-brand-900/10 to-transparent rounded-full blur-3xl opacity-70"></div>
-    <div class="absolute top-1/3 -left-32 w-96 h-96 bg-red-950/30 rounded-full blur-3xl"></div>
-    <div class="absolute bottom-20 -right-32 w-96 h-96 bg-brand-900/20 rounded-full blur-3xl"></div>
-    <div class="absolute inset-0 bg-[radial-gradient(#ef233c15_1px,transparent_1px)] [background-size:24px_24px] opacity-40"></div>
+<header>
+  <div class="wrap nav-row">
+    <div class="brand" onclick="window.scrollTo({top:0, behavior:'smooth'})">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+        <path d="M12 2.5C12 2.5 5 11 5 15.5C5 19.09 8.13 22 12 22C15.87 22 19 19.09 19 15.5C19 11 12 2.5 12 2.5Z" fill="#D62839"/>
+        <path d="M8.2 15.8C8.2 13.6 10 11.6 12 9.6" stroke="#fff" stroke-width="1.4" stroke-linecap="round"/>
+      </svg>
+      Blood Bank <span class="brand-sub">RaktSetu रक्तसेतु</span>
+    </div>
+    <nav class="nav-links">
+      <a href="#heroCarousel">Highlights</a>
+      <a href="#demo">Emergency search</a>
+      <a href="#donate">Donate blood</a>
+      <a href="#how">How it works</a>
+      <a href="#partners">Hospitals &amp; centres</a>
+      <a href="#features">Platform</a>
+      <a href="#matrix">Compatibility</a>
+    </nav>
+    <div class="nav-actions">
+      <a href="app-portal.html" class="portal-link" title="Open Advanced Emergency Workspace">Full Grid Portal ↗</a>
+      <button class="nav-cta" onclick="document.getElementById('demo').scrollIntoView({behavior:'smooth'})">
+        🩸 Need Blood Now
+      </button>
+    </div>
   </div>
+</header>
 
-  <!-- App Mount Root -->
-  <div id="app-root" class="relative z-10 flex-1 flex flex-col">
-    <!-- Initial Loading State -->
-    <div class="flex-1 flex items-center justify-center min-h-screen">
-      <div class="text-center space-y-4 p-8 bg-slate-900/80 border border-slate-800 rounded-3xl backdrop-blur-xl shadow-2xl">
-        <div class="relative w-16 h-16 mx-auto">
-          <div class="absolute inset-0 rounded-full bg-brand-600/30 animate-radar"></div>
-          <div class="relative w-16 h-16 rounded-2xl bg-gradient-to-br from-brand-500 to-brand-700 flex items-center justify-center text-white shadow-lg shadow-brand-600/50 animate-pulse">
-            <svg class="w-9 h-9" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/>
-            </svg>
+<!-- Full-Width 16:9 Healthcare Technology Hero Carousel -->
+<section class="banner-carousel-section" id="heroCarousel" aria-label="RaktSetu Strategic Highlights">
+  <div class="carousel-viewport">
+    <div class="carousel-track" id="carouselTrack">
+      
+      <!-- Slide 1: EMERGENCY BLOOD SEARCH -->
+      <div class="carousel-slide active" data-index="0">
+        <img src="./assets/slide1_emergency_search.jpg" alt="Indian family member checking emergency blood discovery on smartphone in hospital reception" class="slide-bg-img" loading="eager">
+        <div class="slide-overlay"></div>
+        <div class="wrap slide-content-wrap">
+          <div class="slide-content">
+            <div class="slide-tag"><span class="dot"></span> EMERGENCY BLOOD SEARCH</div>
+            <h2 class="slide-headline">Find Blood. <em class="slide-em">Faster.</em></h2>
+            <p class="slide-sub">Find nearby verified blood centres with reported availability when every minute matters.</p>
+            <div class="slide-feature-pill">
+              ⏱️ Built for the critical first 10 minutes • 0 Phone Queue Delays
+            </div>
+            <div>
+              <button type="button" class="slide-cta-btn" onclick="document.getElementById('demo').scrollIntoView({behavior:'smooth'})">
+                Find Blood Now
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+              </button>
+            </div>
           </div>
         </div>
+      </div>
+
+      <!-- Slide 2: SMART BLOOD DISCOVERY -->
+      <div class="carousel-slide" data-index="1">
+        <img src="./assets/slide2_smart_discovery.jpg" alt="Smartphone interface showing blood group chips, GPS location, and nearby blood centres" class="slide-bg-img" loading="lazy">
+        <div class="slide-overlay"></div>
+        <div class="wrap slide-content-wrap">
+          <div class="slide-content">
+            <div class="slide-tag teal"><span class="dot" style="background:var(--teal)"></span> SMART BLOOD DISCOVERY</div>
+            <h2 class="slide-headline">Search Nearby <em class="slide-em">Blood Availability</em></h2>
+            <p class="slide-sub">Enter your blood group, component and location to discover nearby participating blood centres.</p>
+            <div class="slide-feature-pill">
+              🩸 PRBC, Platelets (SDP/RDP), Plasma (FFP) &amp; Rare Groups
+            </div>
+            <div>
+              <button type="button" class="slide-cta-btn" onclick="document.getElementById('demo').scrollIntoView({behavior:'smooth'})">
+                Search Blood
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 3: CONNECTING PEOPLE & BLOOD CENTRES -->
+      <div class="carousel-slide" data-index="2">
+        <img src="./assets/slide3_connected_network.jpg" alt="Connected digital health network linking patients, blood centres, and hospitals" class="slide-bg-img" loading="lazy">
+        <div class="slide-overlay"></div>
+        <div class="wrap slide-content-wrap">
+          <div class="slide-content">
+            <div class="slide-tag amber"><span class="dot" style="background:var(--amber)"></span> CONNECTING PEOPLE &amp; CENTRES</div>
+            <h2 class="slide-headline">One Platform. <em class="slide-em">Multiple Connections.</em></h2>
+            <p class="slide-sub">Connecting patients, hospitals and participating blood centres through one simple digital platform.</p>
+            <div class="slide-flow-badge">
+              <span>Patient</span> ➔ <span class="accent">RaktSetu Grid</span> ➔ <span>Blood Centre</span> ➔ <span>Hospital</span>
+            </div>
+            <div>
+              <button type="button" class="slide-cta-btn secondary" onclick="document.getElementById('how').scrollIntoView({behavior:'smooth'})">
+                Explore RaktSetu
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 4: TRUST & FRESH INFORMATION -->
+      <div class="carousel-slide" data-index="3">
+        <img src="./assets/slide4_trust_freshness.jpg" alt="Accredited blood centre technician verifying units with live telemetry card preview" class="slide-bg-img" loading="lazy">
+        <div class="slide-overlay"></div>
+        <div class="wrap slide-content-wrap">
+          <div class="slide-content">
+            <div class="slide-tag"><span class="dot"></span> TRUST &amp; FRESH INFORMATION</div>
+            <h2 class="slide-headline">Know Before <em class="slide-em">You Go</em></h2>
+            <p class="slide-sub">See reported availability, distance, centre details and the latest stock update before contacting the centre.</p>
+            
+            <!-- Live Preview Badge Card -->
+            <div class="slide-metric-card">
+              <div class="smc-top">
+                <span class="verified" style="font-size:12.5px;">✓ Verified Centre</span>
+                <span style="font-size:12.5px; font-weight:700; color:var(--ink-soft);">2.1 km Away</span>
+              </div>
+              <div class="smc-title">O+ Available · 12 Units Reported</div>
+              <div class="smc-meta">
+                <span class="dot" style="background:var(--teal)"></span>
+                Updated 4 min ago · Reported Stock
+              </div>
+            </div>
+
+            <div>
+              <button type="button" class="slide-cta-btn" onclick="document.getElementById('demo').scrollIntoView({behavior:'smooth'})">
+                Find a Centre
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Navigation Arrows -->
+    <button type="button" class="carousel-arrow prev" id="carouselPrev" aria-label="Previous slide">‹</button>
+    <button type="button" class="carousel-arrow next" id="carouselNext" aria-label="Next slide">›</button>
+
+    <!-- Bottom Controls (Dots & Counter) -->
+    <div class="carousel-controls-bottom">
+      <div class="carousel-dots" id="carouselDots" role="tablist" aria-label="Carousel pagination"></div>
+    </div>
+    <div class="carousel-counter" id="carouselCounter">01 / 04</div>
+  </div>
+</section>
+
+<!-- Trust Strip Below Carousel -->
+<div class="trust-strip" aria-label="RaktSetu Trust Highlights">
+  <div class="wrap">
+    <div class="trust-grid">
+      <div class="trust-item">
+        <div class="trust-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
         <div>
-          <h2 class="text-2xl font-bold font-heading text-white tracking-wide">RaktSetu <span class="text-brand-500 font-normal text-lg">रक्तसेतु</span></h2>
-          <p class="text-xs font-semibold text-slate-400 mt-1">Initializing Emergency Blood Coordination Grid...</p>
+          <div class="trust-title">Verified Centres</div>
+          <div class="trust-sub">State Drug Controller &amp; NABH licensed</div>
+        </div>
+      </div>
+
+      <div class="trust-item">
+        <div class="trust-icon teal">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        </div>
+        <div>
+          <div class="trust-title">Location-Based Search</div>
+          <div class="trust-sub">Haversine GPS radius matching</div>
+        </div>
+      </div>
+
+      <div class="trust-item">
+        <div class="trust-icon amber">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <div>
+          <div class="trust-title">Availability Updates</div>
+          <div class="trust-sub">Reported stock freshness timestamps</div>
+        </div>
+      </div>
+
+      <div class="trust-item">
+        <div class="trust-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        </div>
+        <div>
+          <div class="trust-title">Emergency-Focused</div>
+          <div class="trust-sub">Fast-track first 10 minutes protocol</div>
         </div>
       </div>
     </div>
+    <div class="trust-disclaimer">
+      *Note: Availability indicators represent reported stock updates from participating centres. Inventory is treated as demonstration data until integrated with official hospital APIs.
+    </div>
   </div>
+</div>
 
-  <!-- Toast Notification Container -->
-  <div id="toast-container" class="fixed bottom-6 right-6 z-50 flex flex-col space-y-3 pointer-events-none max-w-sm w-full"></div>
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="pulse-badge"><span class="dot"></span> Emergency blood discovery, built for the first 10 minutes</div>
+      <h1 class="headline">Find the right blood, <em>faster</em> — not another search.</h1>
+      <p class="sub">Blood Bank connects patients' families to nearby verified blood centres in seconds — by blood group, component, and urgency — instead of a dozen phone calls to hospitals that may not even have stock.</p>
+      <div class="hero-ctas">
+        <button class="btn-primary" onclick="document.getElementById('demo').scrollIntoView({behavior:'smooth'})">
+          🩸 Need Blood Now
+        </button>
+        <button class="btn-ghost" onclick="document.getElementById('donate').scrollIntoView({behavior:'smooth'})">
+          ❤️ Book Donation Slot
+        </button>
+        <button class="btn-ghost" onclick="document.getElementById('partners').scrollIntoView({behavior:'smooth'})">
+          For hospitals &amp; blood centres
+        </button>
+      </div>
+    </div>
 
-  <!-- Main Application Script -->
-  <script type="module" src="./app.js"></script>
+    <!-- Emergency Search Demo Card -->
+    <div class="demo-card" id="demo">
+      <div class="demo-title-row">
+        <h3>Emergency inventory search</h3>
+        <span class="live-tag"><span class="dot"></span> Live verified grid</span>
+      </div>
+
+      <!-- Natural Language Assistance Prompt Box -->
+      <div class="nlp-box">
+        <div class="nlp-label">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          Quick Presets (Natural Language AI)
+        </div>
+        <div class="nlp-chips">
+          <button type="button" class="nlp-chip" onclick="applyNlpQuery('O-', 'prbc', 'Bahadurgarh, Haryana', 'critical')">🩸 Urgent O- in Bahadurgarh</button>
+          <button type="button" class="nlp-chip" onclick="applyNlpQuery('B+', 'sdp', 'Gurugram, Haryana', 'urgent')">⚡ Platelets (SDP) Dengue</button>
+          <button type="button" class="nlp-chip" onclick="applyNlpQuery('AB+', 'ffp', 'Delhi NCR', 'planned')">🧊 Plasma (FFP) Delhi</button>
+          <button type="button" class="nlp-chip" onclick="applyNlpQuery('Bombay (hh)', 'prbc', 'Bahadurgarh, Haryana', 'critical')">💎 Rare Bombay Group</button>
+        </div>
+      </div>
+
+      <label class="field-label">
+        <span>Blood group required</span>
+        <span class="field-label-hint">Universal donor: O-</span>
+      </label>
+      <div class="bg-grid" id="bgGrid">
+        <div class="bg-chip" data-bg="A+">A+</div>
+        <div class="bg-chip" data-bg="A-">A-</div>
+        <div class="bg-chip" data-bg="B+">B+</div>
+        <div class="bg-chip" data-bg="B-">B-</div>
+        <div class="bg-chip" data-bg="O+">O+</div>
+        <div class="bg-chip active" data-bg="O-">O-</div>
+        <div class="bg-chip" data-bg="AB+">AB+</div>
+        <div class="bg-chip" data-bg="AB-">AB-</div>
+      </div>
+      <div class="rare-row">
+        <div class="rare-chip" data-bg="Bombay (hh)">Rare: Bombay Phenotype (hh)</div>
+        <div class="rare-chip" data-bg="Rh-null">Ultra-Rare: Rh-null (Golden Blood)</div>
+      </div>
+
+      <label class="field-label" for="component">Component needed</label>
+      <select id="component">
+        <option value="prbc" selected>Packed RBC (PRBC) — Trauma / Surgeries</option>
+        <option value="wb">Whole Blood (WB) — Acute Hemorrhage</option>
+        <option value="sdp">Single Donor Platelets (SDP) — Dengue / Oncology</option>
+        <option value="rdp">Random Donor Platelets (RDP)</option>
+        <option value="ffp">Plasma (FFP) — Clotting &amp; Burns</option>
+        <option value="cryo">Cryoprecipitate — Factor VIII</option>
+      </select>
+
+      <label class="field-label" for="loc">Your location / hospital area</label>
+      <div class="input-with-button">
+        <input type="text" id="loc" value="Bahadurgarh, Haryana" placeholder="Enter city, district or hospital name">
+        <button type="button" class="loc-gps-btn" id="gpsBtn" title="Detect GPS location">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="12 8 8 12 12 16 16 12 12 8"/></svg>
+          GPS
+        </button>
+      </div>
+
+      <label class="field-label">Urgency requirement</label>
+      <div class="urgency-row" id="urgRow">
+        <div class="urgency-chip active" data-level="critical">Critical (&lt;1 hr)</div>
+        <div class="urgency-chip" data-level="urgent">Urgent (1–4 hrs)</div>
+        <div class="urgency-chip" data-level="planned">Planned (24 hrs)</div>
+      </div>
+
+      <button class="search-btn" id="searchBtn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        Search nearby verified centres
+      </button>
+
+      <!-- Live Search Results Container -->
+      <div id="results">
+        <div class="results-meta">
+          <span id="resultsMeta">Verified matches</span>
+          <span style="font-size:11.5px; color:var(--teal); font-weight:600;">Ranked by Haversine Distance &amp; Freshness</span>
+        </div>
+        <div id="resultsList"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- How It Works Section -->
+<section id="how">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker">How it works</div>
+      <h2>Four steps between "we need blood" and "we found it."</h2>
+      <p>Eliminating delays, chaotic WhatsApp forwards, and dead-end hospital phone queues.</p>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">01</div>
+        <h4>Describe the need</h4>
+        <p>Blood group, specific component (PRBC, Platelets, FFP), units, and clinical urgency level.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <h4>Smart matching</h4>
+        <p>Our scoring algorithm weighs distance, verified licensing, reported stock, and freshness timestamps.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <h4>Connect directly</h4>
+        <p>1-tap call to the 24x7 emergency desk, direct GPS directions, or inter-hospital dispatch transfer.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">04</div>
+        <h4>Track progress</h4>
+        <p>Follow status transparently: Searching ➔ Match Found ➔ Centre Contacted ➔ Dispatched ➔ Transfused.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Two Dashboards Section -->
+<section id="partners">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker">Two dashboards, one network</div>
+      <h2>Built for the people families are trying to reach, too.</h2>
+      <p>Providing specialized workflows for medical teams and blood transfusion officers.</p>
+    </div>
+    <div class="split">
+      <div class="split-card hosp">
+        <div>
+          <h3>Hospital Emergency Desk</h3>
+          <p>For authorized hospital staff and transfusion coordinators raising urgent requirements beyond in-house stock.</p>
+          <ul>
+            <li>Raise emergency patient requisitions with UHID &amp; Bed #</li>
+            <li>Shortlist accredited partner centres within 25 km radius</li>
+            <li>Real-time tracking of courier dispatch and cold-chain status</li>
+          </ul>
+        </div>
+        <button class="split-btn" onclick="openHospitalDemoModal()">
+          Open Hospital Desk Demo ↗
+        </button>
+      </div>
+      <div class="split-card centre">
+        <div>
+          <h3>Blood Centre Manager Desk</h3>
+          <p>For licensed blood banks and Red Cross units to maintain verified visibility when seconds count.</p>
+          <ul>
+            <li>1-click component-wise inventory increment/decrement</li>
+            <li>Operating hours status so seekers never travel to closed doors</li>
+            <li>Timestamped stock updates build instant public trust</li>
+          </ul>
+        </div>
+        <button class="split-btn" onclick="openCentreDemoModal()">
+          Open Centre Manager Demo ↗
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Donate Blood Section -->
+<section id="donate">
+  <div class="wrap donate-wrap">
+    <div class="donate-side">
+      <div class="kicker">Donor Network</div>
+      <h2>Give blood, save three lives in 15 minutes.</h2>
+      <p>Blood cannot be manufactured — it only comes from generous donors like you. Schedule a voluntary donation slot at an accredited centre or join our emergency on-call volunteer network.</p>
+      <div class="donate-points">
+        <div class="donate-point">
+          <div class="num">1</div>
+          <div><strong>Age &amp; Weight:</strong> You are between 18–65 years old and weigh at least 45 kg.</div>
+        </div>
+        <div class="donate-point">
+          <div class="num">2</div>
+          <div><strong>Donation Interval:</strong> At least 90 days (3 months) since your last whole blood donation.</div>
+        </div>
+        <div class="donate-point">
+          <div class="num">3</div>
+          <div><strong>Health Check:</strong> Hemoglobin ≥ 12.5 g/dL and normal blood pressure at the time of screening.</div>
+        </div>
+        <div class="donate-point">
+          <div class="num">4</div>
+          <div><strong>Rapid Recovery:</strong> Your body replenishes blood fluid volume within 24–48 hours.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Donation Booking Card -->
+    <div class="donate-card">
+      <h3>Book Voluntary Donation Slot</h3>
+      <div class="sub-hint">Verified sterile equipment • Refreshments &amp; Government Certificate provided</div>
+      <form id="donateForm" onsubmit="handleDonateBooking(event)">
+        <div class="field">
+          <label for="donorName">Full Name</label>
+          <input type="text" id="donorName" required placeholder="e.g. Rahul Sharma">
+        </div>
+
+        <div class="form-row2">
+          <div class="field">
+            <label for="donorPhone">Mobile Phone (+91)</label>
+            <input type="tel" id="donorPhone" required placeholder="98765 43210" pattern="[0-9]{10}">
+          </div>
+          <div class="field">
+            <label for="donorBg">Blood Group</label>
+            <select id="donorBg" required>
+              <option value="O+">O Positive (O+)</option>
+              <option value="O-">O Negative (O-) — High Demand</option>
+              <option value="A+">A Positive (A+)</option>
+              <option value="A-">A Negative (A-)</option>
+              <option value="B+">B Positive (B+)</option>
+              <option value="B-">B Negative (B-)</option>
+              <option value="AB+">AB Positive (AB+)</option>
+              <option value="AB-">AB Negative (AB-)</option>
+              <option value="Unknown">Don't Know Yet (Free Test On Site)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="donorCentre">Preferred Donation Centre</label>
+          <select id="donorCentre" required>
+            <option value="Civil Hospital Blood Bank, Bahadurgarh">Civil Hospital Blood Bank, Bahadurgarh (Sector 6)</option>
+            <option value="Sanjeevani Blood Centre, Bahadurgarh">Sanjeevani Blood Centre, Opp. Bus Stand Bahadurgarh</option>
+            <option value="Medanta The Medicity, Gurugram">Medanta Blood Bank &amp; Transfusion, Gurugram</option>
+            <option value="Metro Red Cross Blood Centre, Delhi">Metro Red Cross Regional Blood Centre, New Delhi</option>
+            <option value="AIIMS Main Blood Bank, New Delhi">AIIMS Transfusion Medicine Centre, New Delhi</option>
+          </select>
+        </div>
+
+        <div class="form-row2">
+          <div class="field">
+            <label for="donorDate">Date</label>
+            <input type="date" id="donorDate" required>
+          </div>
+          <div class="field">
+            <label for="donorSlot">Time Slot</label>
+            <select id="donorSlot" required>
+              <option value="Morning (09:00 AM - 12:00 PM)">Morning (09:00 AM – 12:00 PM)</option>
+              <option value="Afternoon (12:00 PM - 03:00 PM)">Afternoon (12:00 PM – 03:00 PM)</option>
+              <option value="Evening (03:00 PM - 06:00 PM)">Evening (03:00 PM – 06:00 PM)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="checkbox-field">
+          <input type="checkbox" id="donorEmergencyOptIn" checked>
+          <label for="donorEmergencyOptIn">Register me on the on-call emergency notification roster for rare blood requests in my city.</label>
+        </div>
+
+        <button type="submit" class="book-btn">Confirm &amp; Book Donation Slot</button>
+      </form>
+
+      <!-- Booking Confirmation Card -->
+      <div id="donateConfirm">
+        <h4>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          Slot Confirmed!
+        </h4>
+        <p>A confirmation SMS with QR check-in token has been issued. Thank you for being a lifesaver.</p>
+        <div class="row"><span>Booking Reference:</span> <span class="token-badge" id="confirmToken">DON-2026-8841</span></div>
+        <div class="row"><span>Donor Name:</span> <span id="confirmName">-</span></div>
+        <div class="row"><span>Centre:</span> <span id="confirmCentre">-</span></div>
+        <div class="row"><span>Date &amp; Slot:</span> <span id="confirmDate">-</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Features Grid Section -->
+<section id="features">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker">What makes it reliable</div>
+      <h2>Not just a directory — a coordination layer.</h2>
+      <p>Every feature exists to answer one question faster: is this blood actually available, right now, close by?</p>
+    </div>
+    <div class="feat-grid">
+      <div class="feat">
+        <svg class="icn" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#14746F" stroke-width="1.6"/><path d="M8 12.5l2.5 2.5L16 9" stroke="#14746F" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <h4>Verified centre network</h4>
+        <p>Every listing goes through Drug Controller &amp; NABH verification, so families can tell trusted stock from guesswork.</p>
+      </div>
+      <div class="feat">
+        <svg class="icn" viewBox="0 0 24 24" fill="none"><path d="M12 6v6l4 2" stroke="#B6791C" stroke-width="1.6" stroke-linecap="round"/><circle cx="12" cy="12" r="9" stroke="#B6791C" stroke-width="1.6"/></svg>
+        <h4>Stock freshness indicator</h4>
+        <p>"Updated 4 minutes ago" beats a static stale listing — because emergency blood inventory changes continuously.</p>
+      </div>
+      <div class="feat">
+        <svg class="icn" viewBox="0 0 24 24" fill="none"><path d="M4 19l5-14 3 9 3-9 5 14" stroke="#D62839" stroke-width="1.6" stroke-linejoin="round"/></svg>
+        <h4>Natural-language search</h4>
+        <p>"My patient urgently needs O-negative in Bahadurgarh" — the system parses parameters and executes search in 1 second.</p>
+      </div>
+      <div class="feat">
+        <svg class="icn" viewBox="0 0 24 24" fill="none"><path d="M12 21c-4.5-3-8-6.2-8-10.2A5.8 5.8 0 0112 6.4 5.8 5.8 0 0120 10.8c0 4-3.5 7.2-8 10.2z" stroke="#D62839" stroke-width="1.6"/></svg>
+        <h4>Emergency SOS routing</h4>
+        <p>When nearby stock is depleted, automated requisitions broadcast to partner hospital blood banks and volunteer donors.</p>
+      </div>
+      <div class="feat">
+        <svg class="icn" viewBox="0 0 24 24" fill="none"><path d="M12 2l2.4 6.6L21 11l-6.6 2.4L12 20l-2.4-6.6L3 11l6.6-2.4z" stroke="#14746F" stroke-width="1.4" stroke-linejoin="round"/></svg>
+        <h4>Rare phenotype protocols</h4>
+        <p>Instant matching and helpline protocols for Bombay Phenotype (hh) and Rh-null rare genetic variants.</p>
+      </div>
+      <div class="feat">
+        <svg class="icn" viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="16" rx="2" stroke="#B6791C" stroke-width="1.6"/><path d="M7 9h10M7 13h6" stroke="#B6791C" stroke-width="1.6" stroke-linecap="round"/></svg>
+        <h4>Real-time request tracking</h4>
+        <p>Transparent 5-stage updates: Searching ➔ Match Found ➔ Centre Contacted ➔ Reserved ➔ Transfused.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Clinical Compatibility Quick Reference Section -->
+<section id="matrix" class="matrix-section">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker">Clinical Reference</div>
+      <h2>Blood &amp; Plasma Transfusion Compatibility</h2>
+      <p>Quick clinical reference on red cell and plasma recipient-donor matching rules.</p>
+    </div>
+    <div class="compat-table-wrap">
+      <table class="compat-table">
+        <thead>
+          <tr>
+            <th>Blood Group</th>
+            <th>Can Receive Red Cells (PRBC) From</th>
+            <th>Can Donate Red Cells (PRBC) To</th>
+            <th>Universal Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>O-</strong></td>
+            <td>O- only</td>
+            <td>All blood groups (A+, A-, B+, B-, AB+, AB-, O+, O-)</td>
+            <td><span class="tag-universal">Universal Red Cell Donor</span></td>
+          </tr>
+          <tr>
+            <td><strong>O+</strong></td>
+            <td>O+, O-</td>
+            <td>O+, A+, B+, AB+</td>
+            <td><span class="tag-match">Most Prevalent Group</span></td>
+          </tr>
+          <tr>
+            <td><strong>A-</strong></td>
+            <td>A-, O-</td>
+            <td>A+, A-, AB+, AB-</td>
+            <td><span class="tag-match">Compatible with A &amp; AB</span></td>
+          </tr>
+          <tr>
+            <td><strong>A+</strong></td>
+            <td>A+, A-, O+, O-</td>
+            <td>A+, AB+</td>
+            <td><span class="tag-match">High Demand</span></td>
+          </tr>
+          <tr>
+            <td><strong>B-</strong></td>
+            <td>B-, O-</td>
+            <td>B+, B-, AB+, AB-</td>
+            <td><span class="tag-match">Compatible with B &amp; AB</span></td>
+          </tr>
+          <tr>
+            <td><strong>B+</strong></td>
+            <td>B+, B-, O+, O-</td>
+            <td>B+, AB+</td>
+            <td><span class="tag-match">Frequent in India</span></td>
+          </tr>
+          <tr>
+            <td><strong>AB-</strong></td>
+            <td>AB-, A-, B-, O-</td>
+            <td>AB+, AB-</td>
+            <td><span class="tag-match">Rare Red Cell</span></td>
+          </tr>
+          <tr>
+            <td><strong>AB+</strong></td>
+            <td>All blood groups (Universal Recipient)</td>
+            <td>AB+ only</td>
+            <td><span class="tag-universal">Universal Plasma Donor</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- Vision & Scope Note -->
+<section class="vision">
+  <div class="wrap">
+    <div class="vision-grid">
+      <blockquote>
+        "When every minute matters, finding the right blood should be as simple as searching for it."
+        <cite>— Blood Bank's core philosophy</cite>
+      </blockquote>
+      <div class="scope-note">
+        <strong style="display:block; margin-bottom:8px; color:var(--ink);">What Blood Bank is — and isn't</strong>
+        Blood Bank is a digital discovery, donation, and coordination platform, not a substitute for medical judgment. It helps people find verified stock and book donation slots faster; it does not reserve, sell, or medically allocate blood, and every transfusion or eligibility decision stays with licensed medical professionals and accredited blood banks. MVP scope: location-based search, verified centre profiles, stock freshness, donor booking, emergency mode, directions, and centre dashboards.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="wrap foot-row">
+    <div>
+      <div class="foot-brand">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+          <path d="M12 2.5C12 2.5 5 11 5 15.5C5 19.09 8.13 22 12 22C15.87 22 19 19.09 19 15.5C19 11 12 2.5 12 2.5Z" fill="#D62839"/>
+        </svg>
+        Blood Bank (RaktSetu)
+      </div>
+      <div class="foot-note">An independent emergency blood discovery and coordination platform for patients, families, hospitals, and verified blood centres.</div>
+    </div>
+    <div class="foot-helpline">
+      <div class="foot-helpline-title">National Emergency Medical Helpline</div>
+      <div class="foot-helpline-phone">📞 104 / 112 (24x7 Toll Free)</div>
+    </div>
+  </div>
+</footer>
+
+<!-- Centre Details Modal -->
+<div class="modal-backdrop" id="centreModal">
+  <div class="modal-window">
+    <div class="modal-head">
+      <div>
+        <h3 id="modalCentreName">Centre Details</h3>
+        <p id="modalCentreAddr" style="font-size:12.5px; color:var(--ink-soft); margin-top:2px;"></p>
+      </div>
+      <button class="modal-close" onclick="closeModal('centreModal')">&times;</button>
+    </div>
+    <div style="font-size:13px; line-height:1.7; color:var(--ink-soft);" id="modalCentreMeta"></div>
+    <h4 style="font-size:14px; margin-top:16px;">Live Stock Inventory Breakdown</h4>
+    <table class="modal-table" id="modalStockTable">
+      <thead>
+        <tr>
+          <th>Group</th>
+          <th>PRBC</th>
+          <th>Whole Blood</th>
+          <th>SDP Platelets</th>
+          <th>FFP Plasma</th>
+        </tr>
+      </thead>
+      <tbody id="modalStockBody"></tbody>
+    </table>
+    <div style="margin-top:20px; display:flex; gap:10px;">
+      <a id="modalCallBtn" href="#" class="mini-btn primary" style="flex:1; padding:10px;">Call Emergency Desk</a>
+      <a id="modalMapBtn" href="#" target="_blank" class="mini-btn" style="flex:1; padding:10px;">Open GPS Maps ↗</a>
+    </div>
+  </div>
+</div>
+
+<!-- Hospital Requisition Demo Modal -->
+<div class="modal-backdrop" id="hospModal">
+  <div class="modal-window">
+    <div class="modal-head">
+      <div>
+        <h3>Hospital Emergency Requisition</h3>
+        <p style="font-size:12.5px; color:var(--ink-soft);">Staff Transfusion Request Portal (Interactive Demo)</p>
+      </div>
+      <button class="modal-close" onclick="closeModal('hospModal')">&times;</button>
+    </div>
+    <form onsubmit="handleHospitalReq(event)">
+      <div class="field">
+        <label>Hospital Name</label>
+        <input type="text" id="hospName" value="Civil Hospital Bahadurgarh" required>
+      </div>
+      <div class="form-row2" style="margin-top:10px;">
+        <div class="field">
+          <label>Patient UHID / Case #</label>
+          <input type="text" id="hospUhid" value="UHID-2026-904" required>
+        </div>
+        <div class="field">
+          <label>Ward / OT Bed #</label>
+          <input type="text" id="hospBed" value="Trauma ICU - Bed 04" required>
+        </div>
+      </div>
+      <div class="form-row2" style="margin-top:10px;">
+        <div class="field">
+          <label>Required Blood Group</label>
+          <select id="hospBg">
+            <option>O-</option>
+            <option>O+</option>
+            <option>A-</option>
+            <option>B-</option>
+            <option>AB-</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Units Needed</label>
+          <input type="number" min="1" max="10" value="2" id="hospUnits" required>
+        </div>
+      </div>
+      <button type="submit" class="search-btn" style="margin-top:16px;">
+        Broadcast Urgent Requirement to Grid
+      </button>
+    </form>
+    <div id="hospSuccess" style="display:none; margin-top:14px; padding:12px; background:var(--teal-tint); border-radius:10px; font-size:13px; color:var(--teal);">
+      <strong>Requisition Raised:</strong> SOS broadcast transmitted to 3 nearest verified centres within 15 km.
+    </div>
+  </div>
+</div>
+
+<!-- Centre Manager Inventory Demo Modal -->
+<div class="modal-backdrop" id="centreMgmtModal">
+  <div class="modal-window">
+    <div class="modal-head">
+      <div>
+        <h3>Blood Centre Stock Management</h3>
+        <p style="font-size:12.5px; color:var(--ink-soft);">Civil Hospital Bahadurgarh (Live Inventory Control Demo)</p>
+      </div>
+      <button class="modal-close" onclick="closeModal('centreMgmtModal')">&times;</button>
+    </div>
+    <p style="font-size:13px; color:var(--ink-soft); margin-bottom:14px;">
+      Simulate real-time stock adjustments. Changes immediately recalculate ranking in the search demo above!
+    </p>
+    <div style="display:grid; gap:10px;" id="stockAdjustRows"></div>
+    <button type="button" class="book-btn" style="margin-top:16px;" onclick="syncStockTimestamp()">
+      ⏱️ Sync Stock Timestamp to NOW (Freshness 0 mins)
+    </button>
+  </div>
+</div>
+
+<!-- Toast Feedback -->
+<div id="toast"></div>
+
+<script>
+  // Initial Verified Centres Pool with rich telemetry & geocodes
+  let centrePool = [
+    {
+      id: "c-civil-bdg",
+      name: "Civil Hospital Blood Bank",
+      dist: 1.2,
+      lat: 28.6924,
+      lng: 76.9248,
+      verified: true,
+      license: "DL-HR-BDG-2015-4402",
+      phone: "+91 1276 221 102",
+      address: "Jhajjar Road, Sector 6, Bahadurgarh, Haryana 124507",
+      fresh: 4,
+      stock: {
+        'O-': { prbc: 5, wb: 2, sdp: 3, rdp: 4, ffp: 8, cryo: 3 },
+        'O+': { prbc: 18, wb: 5, sdp: 8, rdp: 12, ffp: 16, cryo: 6 },
+        'A+': { prbc: 14, wb: 4, sdp: 4, rdp: 9, ffp: 12, cryo: 5 },
+        'A-': { prbc: 4, wb: 1, sdp: 2, rdp: 3, ffp: 5, cryo: 2 },
+        'B+': { prbc: 22, wb: 6, sdp: 6, rdp: 14, ffp: 20, cryo: 8 },
+        'B-': { prbc: 6, wb: 2, sdp: 3, rdp: 5, ffp: 7, cryo: 3 },
+        'AB+': { prbc: 10, wb: 3, sdp: 3, rdp: 7, ffp: 10, cryo: 4 },
+        'AB-': { prbc: 3, wb: 1, sdp: 1, rdp: 2, ffp: 4, cryo: 1 },
+        'Bombay (hh)': { prbc: 1, wb: 0, sdp: 0, rdp: 1, ffp: 1, cryo: 0 },
+        'Rh-null': { prbc: 0, wb: 0, sdp: 0, rdp: 0, ffp: 0, cryo: 0 }
+      }
+    },
+    {
+      id: "c-sanjeevani",
+      name: "Sanjeevani Blood Care Centre",
+      dist: 2.8,
+      lat: 28.6811,
+      lng: 76.9312,
+      verified: true,
+      license: "DL-HR-BDG-2019-8921",
+      phone: "+91 1276 230 450",
+      address: "Delhi-Rohtak Road, Opp. Bus Stand, Bahadurgarh, Haryana 124507",
+      fresh: 11,
+      stock: {
+        'O-': { prbc: 7, wb: 3, sdp: 4, rdp: 6, ffp: 10, cryo: 4 },
+        'O+': { prbc: 20, wb: 7, sdp: 10, rdp: 16, ffp: 22, cryo: 8 },
+        'A+': { prbc: 12, wb: 3, sdp: 5, rdp: 8, ffp: 14, cryo: 5 },
+        'A-': { prbc: 3, wb: 1, sdp: 1, rdp: 2, ffp: 4, cryo: 2 },
+        'B+': { prbc: 24, wb: 8, sdp: 7, rdp: 18, ffp: 25, cryo: 9 },
+        'B-': { prbc: 5, wb: 1, sdp: 2, rdp: 4, ffp: 6, cryo: 2 },
+        'AB+': { prbc: 11, wb: 3, sdp: 4, rdp: 8, ffp: 12, cryo: 4 },
+        'AB-': { prbc: 2, wb: 0, sdp: 1, rdp: 1, ffp: 3, cryo: 1 },
+        'Bombay (hh)': { prbc: 0, wb: 0, sdp: 0, rdp: 0, ffp: 0, cryo: 0 },
+        'Rh-null': { prbc: 0, wb: 0, sdp: 0, rdp: 0, ffp: 0, cryo: 0 }
+      }
+    },
+    {
+      id: "c-metro-redcross",
+      name: "Metro Red Cross Regional Unit",
+      dist: 8.4,
+      lat: 28.6250,
+      lng: 77.2100,
+      verified: true,
+      license: "DL-DLH-RC-2008-1104",
+      phone: "+91 11 2371 6441",
+      address: "Red Cross Bhawan, 1 Golf Links / West Patel Nagar, New Delhi",
+      fresh: 19,
+      stock: {
+        'O-': { prbc: 4, wb: 2, sdp: 2, rdp: 3, ffp: 6, cryo: 2 },
+        'O+': { prbc: 25, wb: 9, sdp: 12, rdp: 20, ffp: 30, cryo: 10 },
+        'A+': { prbc: 16, wb: 5, sdp: 6, rdp: 10, ffp: 18, cryo: 6 },
+        'A-': { prbc: 4, wb: 1, sdp: 2, rdp: 3, ffp: 5, cryo: 2 },
+        'B+': { prbc: 30, wb: 10, sdp: 9, rdp: 22, ffp: 32, cryo: 11 },
+        'B-': { prbc: 7, wb: 2, sdp: 3, rdp: 6, ffp: 8, cryo: 3 },
+        'AB+': { prbc: 14, wb: 4, sdp: 5, rdp: 9, ffp: 15, cryo: 5 },
+        'AB-': { prbc: 4, wb: 1, sdp: 1, rdp: 2, ffp: 4, cryo: 1 },
+        'Bombay (hh)': { prbc: 1, wb: 0, sdp: 0, rdp: 0, ffp: 1, cryo: 0 },
+        'Rh-null': { prbc: 0, wb: 0, sdp: 0, rdp: 0, ffp: 0, cryo: 0 }
+      }
+    },
+    {
+      id: "c-medanta",
+      name: "Medanta The Medicity Blood Bank",
+      dist: 24.5,
+      lat: 28.4398,
+      lng: 77.0425,
+      verified: true,
+      license: "DL-HR-GGM-2012-9844",
+      phone: "+91 124 414 1414",
+      address: "CH Bakhtawar Singh Road, Sector 38, Gurugram, Haryana 122001",
+      fresh: 3,
+      stock: {
+        'O-': { prbc: 8, wb: 3, sdp: 4, rdp: 6, ffp: 12, cryo: 4 },
+        'O+': { prbc: 28, wb: 10, sdp: 14, rdp: 24, ffp: 35, cryo: 12 },
+        'A+': { prbc: 19, wb: 6, sdp: 7, rdp: 14, ffp: 20, cryo: 7 },
+        'A-': { prbc: 5, wb: 2, sdp: 3, rdp: 4, ffp: 6, cryo: 2 },
+        'B+': { prbc: 34, wb: 11, sdp: 10, rdp: 26, ffp: 36, cryo: 14 },
+        'B-': { prbc: 8, wb: 3, sdp: 4, rdp: 7, ffp: 9, cryo: 4 },
+        'AB+': { prbc: 16, wb: 5, sdp: 5, rdp: 11, ffp: 18, cryo: 6 },
+        'AB-': { prbc: 4, wb: 1, sdp: 2, rdp: 3, ffp: 5, cryo: 2 },
+        'Bombay (hh)': { prbc: 2, wb: 0, sdp: 1, rdp: 1, ffp: 2, cryo: 1 },
+        'Rh-null': { prbc: 1, wb: 0, sdp: 0, rdp: 0, ffp: 1, cryo: 0 }
+      }
+    },
+    {
+      id: "c-aiims",
+      name: "AIIMS Apex Transfusion Centre",
+      dist: 18.2,
+      lat: 28.5672,
+      lng: 77.2100,
+      verified: true,
+      license: "DL-DLH-AIIMS-1996-001",
+      phone: "+91 11 2658 8500",
+      address: "Sri Aurobindo Marg, Ansari Nagar, New Delhi 110029",
+      fresh: 8,
+      stock: {
+        'O-': { prbc: 12, wb: 4, sdp: 6, rdp: 8, ffp: 16, cryo: 6 },
+        'O+': { prbc: 35, wb: 12, sdp: 18, rdp: 30, ffp: 45, cryo: 15 },
+        'A+': { prbc: 22, wb: 8, sdp: 8, rdp: 16, ffp: 26, cryo: 9 },
+        'A-': { prbc: 6, wb: 2, sdp: 3, rdp: 5, ffp: 8, cryo: 3 },
+        'B+': { prbc: 40, wb: 14, sdp: 12, rdp: 30, ffp: 48, cryo: 16 },
+        'B-': { prbc: 9, wb: 3, sdp: 4, rdp: 8, ffp: 11, cryo: 4 },
+        'AB+': { prbc: 18, wb: 6, sdp: 6, rdp: 12, ffp: 20, cryo: 7 },
+        'AB-': { prbc: 5, wb: 2, sdp: 2, rdp: 4, ffp: 6, cryo: 2 },
+        'Bombay (hh)': { prbc: 2, wb: 0, sdp: 1, rdp: 1, ffp: 2, cryo: 1 },
+        'Rh-null': { prbc: 1, wb: 0, sdp: 0, rdp: 0, ffp: 1, cryo: 0 }
+      }
+    },
+    {
+      id: "c-ashirwad",
+      name: "Ashirwad Charitable Blood Services",
+      dist: 14.6,
+      lat: 28.6410,
+      lng: 77.1200,
+      verified: false,
+      license: "DL-DLH-NGO-2016-5591 (Renewal Pending)",
+      phone: "+91 11 2541 3322",
+      address: "Main Najafgarh Road, West Delhi 110043",
+      fresh: 54,
+      stock: {
+        'O-': { prbc: 1, wb: 0, sdp: 0, rdp: 1, ffp: 2, cryo: 0 },
+        'O+': { prbc: 8, wb: 2, sdp: 2, rdp: 5, ffp: 7, cryo: 2 },
+        'A+': { prbc: 5, wb: 1, sdp: 1, rdp: 3, ffp: 4, cryo: 1 },
+        'A-': { prbc: 1, wb: 0, sdp: 0, rdp: 1, ffp: 1, cryo: 0 },
+        'B+': { prbc: 9, wb: 3, sdp: 2, rdp: 6, ffp: 8, cryo: 2 },
+        'B-': { prbc: 2, wb: 0, sdp: 1, rdp: 1, ffp: 2, cryo: 0 },
+        'AB+': { prbc: 3, wb: 1, sdp: 1, rdp: 2, ffp: 3, cryo: 1 },
+        'AB-': { prbc: 0, wb: 0, sdp: 0, rdp: 0, ffp: 1, cryo: 0 },
+        'Bombay (hh)': { prbc: 0, wb: 0, sdp: 0, rdp: 0, ffp: 0, cryo: 0 },
+        'Rh-null': { prbc: 0, wb: 0, sdp: 0, rdp: 0, ffp: 0, cryo: 0 }
+      }
+    }
+  ];
+
+  // State
+  let selectedBg = 'O-';
+  let selectedUrg = 'critical';
+
+  // Blood group selection handlers
+  const bgChips = document.querySelectorAll('.bg-chip, .rare-chip');
+  bgChips.forEach(chip => {
+    chip.addEventListener('click', () => {
+      bgChips.forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      selectedBg = chip.dataset.bg;
+      triggerSearch();
+    });
+  });
+
+  // Urgency selection handlers
+  const urgChips = document.querySelectorAll('.urgency-chip');
+  urgChips.forEach(chip => {
+    chip.addEventListener('click', () => {
+      urgChips.forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      selectedUrg = chip.dataset.level;
+      triggerSearch();
+    });
+  });
+
+  // Component dropdown change
+  document.getElementById('component').addEventListener('change', () => triggerSearch());
+
+  // GPS Detect Button
+  document.getElementById('gpsBtn').addEventListener('click', () => {
+    if (navigator.geolocation) {
+      showToast("Detecting GPS coordinates...");
+      navigator.geolocation.getCurrentPosition(
+        pos => {
+          document.getElementById('loc').value = "GPS: " + pos.coords.latitude.toFixed(4) + ", " + pos.coords.longitude.toFixed(4);
+          showToast("Location locked via device GPS!");
+          triggerSearch();
+        },
+        err => {
+          document.getElementById('loc').value = "Bahadurgarh Central (Haryana)";
+          showToast("Defaulted to Bahadurgarh Central.");
+          triggerSearch();
+        }
+      );
+    } else {
+      showToast("Geolocation not supported by browser.");
+    }
+  });
+
+  // NLP Query Pill Helper
+  window.applyNlpQuery = function(bg, comp, loc, urg) {
+    selectedBg = bg;
+    bgChips.forEach(c => {
+      c.classList.toggle('active', c.dataset.bg === bg);
+    });
+    document.getElementById('component').value = comp;
+    document.getElementById('loc').value = loc;
+    selectedUrg = urg;
+    urgChips.forEach(c => {
+      c.classList.toggle('active', c.dataset.level === urg);
+    });
+    showToast(`Parsed: ${bg} · ${comp.toUpperCase()} · ${loc}`);
+    triggerSearch();
+  };
+
+  function freshLabel(mins) {
+    if (mins <= 2) return `Updated just now`;
+    if (mins < 60) return `Updated ${mins} mins ago`;
+    return `Updated ${Math.round(mins / 60)} hr ago`;
+  }
+
+  function getUnits(c, bg, comp) {
+    if (!c.stock[bg]) return 0;
+    return c.stock[bg][comp] || 0;
+  }
+
+  function score(c, bg, comp) {
+    let s = 100 - (c.dist * 3.5) - (c.fresh * 0.4);
+    if (c.verified) s += 20;
+    const units = getUnits(c, bg, comp);
+    s += Math.min(units * 4, 30);
+    return s;
+  }
+
+  function triggerSearch() {
+    const component = document.getElementById('component').value;
+    const loc = document.getElementById('loc').value || 'Bahadurgarh, Haryana';
+    
+    // Sort centres by our weighted matching score
+    const ranked = [...centrePool].sort((a,b) => score(b, selectedBg, component) - score(a, selectedBg, component));
+
+    const list = document.getElementById('resultsList');
+    list.innerHTML = ranked.map(c => {
+      const units = getUnits(c, selectedBg, component);
+      const isLow = units < 3;
+      const stockBadgeText = units > 0 
+        ? `${units} units available (${selectedBg})`
+        : `0 units in stock — SOS Alert Available`;
+
+      return `
+        <div class="result" id="res-${c.id}">
+          <div class="result-top">
+            <div>
+              <div class="centre-name">
+                ${c.name}
+                ${c.verified ? '<span class="verified" title="Drug Controller & NABH Accredited">✓ Verified</span>' : '<span style="color:var(--amber); font-size:11.5px; font-weight:600; margin-left:4px;">⚠ Renewal Pending</span>'}
+              </div>
+              <div class="centre-addr">${c.address}</div>
+            </div>
+            <div class="dist">${c.dist} km away</div>
+          </div>
+          <div class="result-mid">
+            <span class="stock-tag ${isLow ? 'low' : ''}">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
+              ${stockBadgeText}
+            </span>
+            <span class="fresh-tag">
+              <span class="dot"></span>
+              ${freshLabel(c.fresh)}
+            </span>
+          </div>
+          <div class="result-actions">
+            <a href="tel:${c.phone}" class="mini-btn primary" title="Call Emergency Desk">
+              📞 Call Centre
+            </a>
+            <a href="https://www.google.com/maps/dir/?api=1&destination=${c.lat},${c.lng}" target="_blank" class="mini-btn" title="Open Google Maps GPS Navigation">
+              📍 Get directions
+            </a>
+            <button type="button" class="mini-btn" onclick="openCentreModal('${c.id}')" title="View Full Inventory Breakdown">
+              ℹ️ View details
+            </button>
+          </div>
+        </div>
+      `;
+    }).join('');
+
+    const compName = document.getElementById('component').options[document.getElementById('component').selectedIndex].text.split('—')[0].trim();
+    document.getElementById('resultsMeta').textContent =
+      `${ranked.length} verified centres matched near ${loc} for ${selectedBg} (${compName})`;
+    
+    document.getElementById('results').classList.add('show');
+  }
+
+  document.getElementById('searchBtn').addEventListener('click', () => {
+    triggerSearch();
+    document.getElementById('results').scrollIntoView({behavior:'smooth', block:'nearest'});
+  });
+
+  // Execute initial search on load
+  triggerSearch();
+
+  // Centre Details Modal
+  window.openCentreModal = function(id) {
+    const c = centrePool.find(x => x.id === id);
+    if (!c) return;
+    document.getElementById('modalCentreName').textContent = c.name;
+    document.getElementById('modalCentreAddr').textContent = c.address;
+    document.getElementById('modalCentreMeta').innerHTML = `
+      <div><strong>License #:</strong> ${c.license}</div>
+      <div><strong>Emergency Contact:</strong> ${c.phone}</div>
+      <div><strong>Distance:</strong> ${c.dist} km from selected location</div>
+      <div><strong>Data Freshness:</strong> ${freshLabel(c.fresh)}</div>
+    `;
+
+    const groups = ['O+', 'O-', 'A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'Bombay (hh)'];
+    document.getElementById('modalStockBody').innerHTML = groups.map(bg => {
+      const s = c.stock[bg] || { prbc:0, wb:0, sdp:0, ffp:0 };
+      const highlight = bg === selectedBg ? 'background:var(--red-tint); font-weight:700;' : '';
+      return `
+        <tr style="${highlight}">
+          <td><strong>${bg}</strong></td>
+          <td style="${s.prbc > 0 ? 'color:var(--teal); font-weight:600;' : 'color:var(--ink-muted);'}">${s.prbc} units</td>
+          <td style="${s.wb > 0 ? 'color:var(--teal); font-weight:600;' : 'color:var(--ink-muted);'}">${s.wb} units</td>
+          <td style="${s.sdp > 0 ? 'color:var(--teal); font-weight:600;' : 'color:var(--ink-muted);'}">${s.sdp} units</td>
+          <td style="${s.ffp > 0 ? 'color:var(--teal); font-weight:600;' : 'color:var(--ink-muted);'}">${s.ffp} units</td>
+        </tr>
+      `;
+    }).join('');
+
+    document.getElementById('modalCallBtn').href = `tel:${c.phone}`;
+    document.getElementById('modalMapBtn').href = `https://www.google.com/maps/dir/?api=1&destination=${c.lat},${c.lng}`;
+
+    document.getElementById('centreModal').classList.add('open');
+  };
+
+  // Close Modals
+  window.closeModal = function(id) {
+    document.getElementById(id).classList.remove('open');
+  };
+
+  // Close modals on clicking outside window
+  document.querySelectorAll('.modal-backdrop').forEach(backdrop => {
+    backdrop.addEventListener('click', (e) => {
+      if (e.target === backdrop) backdrop.classList.remove('open');
+    });
+  });
+
+  // Donate Blood Form Booking
+  window.handleDonateBooking = function(e) {
+    e.preventDefault();
+    const name = document.getElementById('donorName').value;
+    const phone = document.getElementById('donorPhone').value;
+    const bg = document.getElementById('donorBg').value;
+    const centre = document.getElementById('donorCentre').value;
+    const date = document.getElementById('donorDate').value || new Date().toISOString().split('T')[0];
+    const slot = document.getElementById('donorSlot').value;
+
+    const token = 'DON-' + Math.floor(1000 + Math.random() * 9000);
+    document.getElementById('confirmToken').textContent = token;
+    document.getElementById('confirmName').textContent = `${name} (${phone}) · ${bg}`;
+    document.getElementById('confirmCentre').textContent = centre;
+    document.getElementById('confirmDate').textContent = `${date} • ${slot}`;
+
+    const conf = document.getElementById('donateConfirm');
+    conf.classList.add('show');
+    conf.scrollIntoView({behavior:'smooth', block:'nearest'});
+
+    showToast(`Appointment confirmed for ${name}! Reference: ${token}`);
+  };
+
+  // Pre-fill tomorrow's date in donor date picker
+  const tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  document.getElementById('donorDate').value = tomorrow.toISOString().split('T')[0];
+
+  // Hospital Desk Requisition Demo Modal
+  window.openHospitalDemoModal = function() {
+    document.getElementById('hospSuccess').style.display = 'none';
+    document.getElementById('hospModal').classList.add('open');
+  };
+
+  window.handleHospitalReq = function(e) {
+    e.preventDefault();
+    const hosp = document.getElementById('hospName').value;
+    const bg = document.getElementById('hospBg').value;
+    const units = document.getElementById('hospUnits').value;
+    const uhid = document.getElementById('hospUhid').value;
+
+    document.getElementById('hospSuccess').innerHTML = `
+      <strong>Requisition SOS-${Math.floor(1000+Math.random()*9000)} Broadcast:</strong>
+      ${units} units of ${bg} requested for ${uhid} at ${hosp}.
+      Emergency transmission routed to Civil Hospital Bahadurgarh &amp; Sanjeevani Blood Centre.
+    `;
+    document.getElementById('hospSuccess').style.display = 'block';
+    showToast(`Emergency requisition broadcast to 3 nearby centres!`);
+  };
+
+  // Centre Manager Stock Adjustment Demo Modal
+  window.openCentreDemoModal = function() {
+    renderCentreMgmtRows();
+    document.getElementById('centreMgmtModal').classList.add('open');
+  };
+
+  function renderCentreMgmtRows() {
+    const c = centrePool[0]; // Civil Hospital Bahadurgarh
+    const container = document.getElementById('stockAdjustRows');
+    const bgs = ['O-', 'O+', 'A-', 'B+', 'AB-'];
+
+    container.innerHTML = bgs.map(bg => {
+      const prbc = c.stock[bg] ? c.stock[bg].prbc : 0;
+      const sdp = c.stock[bg] ? c.stock[bg].sdp : 0;
+      return `
+        <div style="display:flex; align-items:center; justify-content:space-between; padding:10px 12px; background:var(--bg); border-radius:10px; border:1px solid var(--line);">
+          <div style="font-weight:700; width:60px;">${bg}</div>
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span style="font-size:12px; color:var(--ink-soft);">PRBC:</span>
+            <button type="button" class="mini-btn" style="padding:4px 8px;" onclick="adjustStock('c-civil-bdg', '${bg}', 'prbc', -1)">-</button>
+            <span style="font-weight:700; min-width:24px; text-align:center;">${prbc}</span>
+            <button type="button" class="mini-btn" style="padding:4px 8px;" onclick="adjustStock('c-civil-bdg', '${bg}', 'prbc', 1)">+</button>
+          </div>
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span style="font-size:12px; color:var(--ink-soft);">SDP:</span>
+            <button type="button" class="mini-btn" style="padding:4px 8px;" onclick="adjustStock('c-civil-bdg', '${bg}', 'sdp', -1)">-</button>
+            <span style="font-weight:700; min-width:24px; text-align:center;">${sdp}</span>
+            <button type="button" class="mini-btn" style="padding:4px 8px;" onclick="adjustStock('c-civil-bdg', '${bg}', 'sdp', 1)">+</button>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  window.adjustStock = function(centreId, bg, comp, delta) {
+    const c = centrePool.find(x => x.id === centreId);
+    if (!c || !c.stock[bg]) return;
+    c.stock[bg][comp] = Math.max(0, (c.stock[bg][comp] || 0) + delta);
+    c.fresh = 0; // instantly synchronized
+    renderCentreMgmtRows();
+    triggerSearch();
+    showToast(`Updated ${bg} ${comp.toUpperCase()} to ${c.stock[bg][comp]} units.`);
+  };
+
+  window.syncStockTimestamp = function() {
+    const c = centrePool[0];
+    c.fresh = 0;
+    triggerSearch();
+    showToast("Stock freshness reset to 0 minutes ago (Live Sync Active)");
+    closeModal('centreMgmtModal');
+  };
+
+  // Toast feedback helper
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    clearTimeout(window._toastTimer);
+    window._toastTimer = setTimeout(() => t.classList.remove('show'), 3500);
+  }
+
+  // ==========================================
+  // Hero Banner Carousel Logic
+  // ==========================================
+  (function initCarousel() {
+    const track = document.getElementById('carouselTrack');
+    const slides = document.querySelectorAll('.carousel-slide');
+    const dotsContainer = document.getElementById('carouselDots');
+    const counterEl = document.getElementById('carouselCounter');
+    const prevBtn = document.getElementById('carouselPrev');
+    const nextBtn = document.getElementById('carouselNext');
+    const carouselSection = document.getElementById('heroCarousel');
+
+    if (!track || slides.length === 0) return;
+
+    const totalSlides = slides.length;
+    let currentSlide = 0;
+    let carouselTimer = null;
+    const AUTOPLAY_DELAY = 6000;
+
+    // Generate pagination dots
+    dotsContainer.innerHTML = '';
+    slides.forEach((_, idx) => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'dot-btn' + (idx === 0 ? ' active' : '');
+      btn.setAttribute('aria-label', `Navigate to slide ${idx + 1}`);
+      btn.addEventListener('click', () => {
+        goToSlide(idx);
+        resetTimer();
+      });
+      dotsContainer.appendChild(btn);
+    });
+
+    const dotBtns = dotsContainer.querySelectorAll('.dot-btn');
+
+    function updateSlideUI() {
+      track.style.transform = `translateX(-${currentSlide * 100}%)`;
+      slides.forEach((s, idx) => {
+        s.classList.toggle('active', idx === currentSlide);
+      });
+      dotBtns.forEach((dot, idx) => {
+        dot.classList.toggle('active', idx === currentSlide);
+      });
+      if (counterEl) {
+        counterEl.textContent = `0${currentSlide + 1} / 0${totalSlides}`;
+      }
+    }
+
+    function goToSlide(idx) {
+      currentSlide = (idx + totalSlides) % totalSlides;
+      updateSlideUI();
+    }
+
+    function nextSlide() {
+      goToSlide(currentSlide + 1);
+    }
+
+    function prevSlide() {
+      goToSlide(currentSlide - 1);
+    }
+
+    if (nextBtn) {
+      nextBtn.addEventListener('click', () => {
+        nextSlide();
+        resetTimer();
+      });
+    }
+
+    if (prevBtn) {
+      prevBtn.addEventListener('click', () => {
+        prevSlide();
+        resetTimer();
+      });
+    }
+
+    // Autoplay Timer
+    function startTimer() {
+      stopTimer();
+      carouselTimer = setInterval(nextSlide, AUTOPLAY_DELAY);
+    }
+
+    function stopTimer() {
+      if (carouselTimer) {
+        clearInterval(carouselTimer);
+        carouselTimer = null;
+      }
+    }
+
+    function resetTimer() {
+      stopTimer();
+      startTimer();
+    }
+
+    if (carouselSection) {
+      carouselSection.addEventListener('mouseenter', stopTimer);
+      carouselSection.addEventListener('mouseleave', startTimer);
+
+      // Keyboard arrow navigation
+      carouselSection.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight') { nextSlide(); resetTimer(); }
+        else if (e.key === 'ArrowLeft') { prevSlide(); resetTimer(); }
+      });
+
+      // Touch swipe gestures for mobile
+      let touchStartX = 0;
+      let touchEndX = 0;
+      carouselSection.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+      }, { passive: true });
+
+      carouselSection.addEventListener('touchend', (e) => {
+        touchEndX = e.changedTouches[0].screenX;
+        const diff = touchStartX - touchEndX;
+        if (diff > 45) {
+          nextSlide();
+          resetTimer();
+        } else if (diff < -45) {
+          prevSlide();
+          resetTimer();
+        }
+      }, { passive: true });
+    }
+
+    // Start auto transition
+    startTimer();
+  })();
+</script>
+
 </body>
 </html>

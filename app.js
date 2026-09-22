@@ -1335,9 +1335,9 @@ function renderSosCard(req) {
       <div class="space-y-2 pt-1">
         <div class="grid grid-cols-5 gap-1.5">
           ${steps.map((step, idx) => {
-            const isCompleted = idx <= currentStepIndex;
-            const isCurrent = idx === currentStepIndex;
-            return `
+    const isCompleted = idx <= currentStepIndex;
+    const isCurrent = idx === currentStepIndex;
+    return `
               <div class="text-center space-y-1">
                 <div class="h-2 rounded-full transition-all ${isCurrent ? 'bg-brand-500 animate-pulse' : (isCompleted ? 'bg-emerald-500' : 'bg-slate-800')}"></div>
                 <span class="text-[10px] font-bold block ${isCurrent ? 'text-brand-400' : (isCompleted ? 'text-emerald-400' : 'text-slate-500')}">
@@ -1345,7 +1345,7 @@ function renderSosCard(req) {
                 </span>
               </div>
             `;
-          }).join('')}
+  }).join('')}
         </div>
       </div>
 
@@ -1714,8 +1714,8 @@ function renderBloodCentrePortal() {
             </thead>
             <tbody class="divide-y divide-slate-850">
               ${BLOOD_GROUPS.map(bg => {
-                const stock = currentCentre.stock[bg] || { prbc: 0, wb: 0, sdp: 0, rdp: 0, ffp: 0, cryo: 0 };
-                return `
+    const stock = currentCentre.stock[bg] || { prbc: 0, wb: 0, sdp: 0, rdp: 0, ffp: 0, cryo: 0 };
+    return `
                   <tr class="hover:bg-slate-900/40">
                     <td class="py-3 px-3 font-mono font-black text-white text-sm bg-slate-950/40">${bg}</td>
                     ${['prbc', 'wb', 'sdp', 'rdp', 'ffp', 'cryo'].map(comp => `
@@ -1729,7 +1729,7 @@ function renderBloodCentrePortal() {
                     `).join('')}
                   </tr>
                 `;
-              }).join('')}
+  }).join('')}
             </tbody>
           </table>
         </div>
@@ -1983,8 +1983,8 @@ function renderCentreBreakdownModal(centre) {
               </thead>
               <tbody class="divide-y divide-slate-850">
                 ${BLOOD_GROUPS.map(bg => {
-                  const s = centre.stock[bg] || {};
-                  return `
+    const s = centre.stock[bg] || {};
+    return `
                     <tr class="hover:bg-slate-800/30">
                       <td class="py-2 px-3 font-mono font-bold text-white bg-slate-950/40">${bg}</td>
                       <td class="py-2 px-3 font-mono ${s.prbc > 0 ? 'text-emerald-400 font-bold' : 'text-slate-600'}">${s.prbc || 0}</td>
@@ -1995,7 +1995,7 @@ function renderCentreBreakdownModal(centre) {
                       <td class="py-2 px-3 font-mono ${s.cryo > 0 ? 'text-emerald-400 font-bold' : 'text-slate-600'}">${s.cryo || 0}</td>
                     </tr>
                   `;
-                }).join('')}
+  }).join('')}
               </tbody>
             </table>
           </div>

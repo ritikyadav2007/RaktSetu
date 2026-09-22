@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-slate-950 text-slate-100 antialiased selection:bg-red-600 selection:text-white">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>RaktSetu (रक्तसेतु) — Find the Right Blood, Faster | Emergency Blood Discovery Network</title>
+  <meta name="description" content="RaktSetu is an emergency-focused digital blood discovery and coordination platform connecting patients, hospitals, and verified blood centres in real time.">
+  <meta name="theme-color" content="#990000">
+
+  <!-- Favicon SVG -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ef233c'><path d='M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z'/></svg>">
+
+  <!-- Google Fonts: Plus Jakarta Sans & Outfit -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'system-ui', '-apple-system', 'sans-serif'],
+            heading: ['"Outfit"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace']
+          },
+          colors: {
+            brand: {
+              50: '#fff1f2',
+              100: '#ffe4e6',
+              200: '#fecdd3',
+              300: '#fda4af',
+              400: '#fb7185',
+              500: '#ef233c',
+              600: '#d90429',
+              700: '#b70924',
+              800: '#8d0801',
+              900: '#590d0b',
+              950: '#2b0606'
+            },
+            emergency: {
+              red: '#ff0033',
+              glow: 'rgba(239, 35, 60, 0.45)',
+              amber: '#f59e0b',
+              emerald: '#10b981',
+              cyan: '#06b6d4'
+            }
+          },
+          animation: {
+            'pulse-fast': 'pulse 1.2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+            'radar': 'radar 2.5s ease-out infinite',
+            'float': 'float 3s ease-in-out infinite',
+            'marquee': 'marquee 25s linear infinite',
+            'glow-pulse': 'glowPulse 2s ease-in-out infinite alternate'
+          },
+          keyframes: {
+            radar: {
+              '0%': { transform: 'scale(0.8)', opacity: '0.9' },
+              '100%': { transform: 'scale(2.4)', opacity: '0' }
+            },
+            float: {
+              '0%, 100%': { transform: 'translateY(0)' },
+              '50%': { transform: 'translateY(-6px)' }
+            },
+            marquee: {
+              '0%': { transform: 'translateX(0%)' },
+              '100%': { transform: 'translateX(-50%)' }
+            },
+            glowPulse: {
+              '0%': { boxShadow: '0 0 15px rgba(239, 35, 60, 0.3)' },
+              '100%': { boxShadow: '0 0 35px rgba(239, 35, 60, 0.8), 0 0 60px rgba(217, 4, 41, 0.4)' }
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Leaflet CSS & JS for OpenStreetMap -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Canvas Confetti CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body class="min-h-full flex flex-col bg-slate-950 text-slate-100 font-sans selection:bg-brand-600 selection:text-white antialiased overflow-x-hidden">
+
+  <!-- Background Ambient Glow Gradients -->
+  <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+    <div class="absolute -top-40 left-1/2 -translate-x-1/2 w-[700px] h-[500px] bg-gradient-to-b from-brand-700/20 via-brand-900/10 to-transparent rounded-full blur-3xl opacity-70"></div>
+    <div class="absolute top-1/3 -left-32 w-96 h-96 bg-red-950/30 rounded-full blur-3xl"></div>
+    <div class="absolute bottom-20 -right-32 w-96 h-96 bg-brand-900/20 rounded-full blur-3xl"></div>
+    <div class="absolute inset-0 bg-[radial-gradient(#ef233c15_1px,transparent_1px)] [background-size:24px_24px] opacity-40"></div>
+  </div>
+
+  <!-- App Mount Root -->
+  <div id="app-root" class="relative z-10 flex-1 flex flex-col">
+    <!-- Initial Loading State -->
+    <div class="flex-1 flex items-center justify-center min-h-screen">
+      <div class="text-center space-y-4 p-8 bg-slate-900/80 border border-slate-800 rounded-3xl backdrop-blur-xl shadow-2xl">
+        <div class="relative w-16 h-16 mx-auto">
+          <div class="absolute inset-0 rounded-full bg-brand-600/30 animate-radar"></div>
+          <div class="relative w-16 h-16 rounded-2xl bg-gradient-to-br from-brand-500 to-brand-700 flex items-center justify-center text-white shadow-lg shadow-brand-600/50 animate-pulse">
+            <svg class="w-9 h-9" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/>
+            </svg>
+          </div>
+        </div>
+        <div>
+          <h2 class="text-2xl font-bold font-heading text-white tracking-wide">RaktSetu <span class="text-brand-500 font-normal text-lg">रक्तसेतु</span></h2>
+          <p class="text-xs font-semibold text-slate-400 mt-1">Initializing Emergency Blood Coordination Grid...</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container" class="fixed bottom-6 right-6 z-50 flex flex-col space-y-3 pointer-events-none max-w-sm w-full"></div>
+
+  <!-- Main Application Script -->
+  <script type="module" src="./app.js"></script>
+</body>
+</html>
